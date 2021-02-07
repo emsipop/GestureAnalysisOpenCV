@@ -17,7 +17,7 @@ while(True):
 	# store video in a frame
 	ret, frame = cap.read()
 
-	# write frame to file 'testvideo.mp4'
+	# write frame to file 'testvideo.avi'
 	out.write(frame)
 
 	# resize and display video frame
