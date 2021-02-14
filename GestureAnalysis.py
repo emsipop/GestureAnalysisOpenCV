@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 
 # capture video input
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('filename') #enter file name of video
 
 # continue to capture until exit key pressed
 while(True):
@@ -15,7 +15,7 @@ while(True):
 	cv2.imshow("Frame", frame)
 
 	# if key 'q' pressed, video input terminates
-	ch = cv2.waitKey(1)
+	ch = cv2.waitKey(50)
 	if ch & 0xFF == ord('q'):
 		break
 
