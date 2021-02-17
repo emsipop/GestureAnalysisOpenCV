@@ -9,15 +9,11 @@ cap = cv.VideoCapture(0)
 frame_width = int(cap.get(3))
 frame_height = int(cap.get(4))
 
-#out = cv.VideoWriter('testvideo.avi', cv.VideoWriter_fourcc('M', 'J', 'P', 'G'), 30, (frame_width, frame_height))
-
-
 while(True):
 
 	ret, frame = cap.read()
 	#frame = cv.resize(frame, (0,0), fx=1,fy=1)
 	frame = cv.flip(frame,1)
-	#out.write(frame)
 	
 	hsvim = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
 	cv.imshow("hsv", hsvim)
@@ -52,7 +48,6 @@ while(True):
 		break
 
 cap.release()
-#out.release()
 
 cv.destroyAllWindows()
 
