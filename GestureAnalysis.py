@@ -39,16 +39,17 @@ while(True):
 
 		# store the values for the centre of the hull
 		M = cv2.moments(hull)
-		cX = int(M["m10"] / M["m00"])
-		cY = int(M["m01"] / M["m00"])
+		if M['m00'] != 0: # prevents program from crashing due to divide-by-zero error
+			cX = int(M["m10"] / M["m00"])
+			cY = int(M["m01"] / M["m00"])
 
-		# draw circle in centre of the hull
-		cv2.circle(frame, (cX, cY), 5, (255, 255, 255), -1)
+			# draw circle in centre of the hull
+			cv2.circle(frame, (cX, cY), 5, (255, 255, 255), -1)
 
-		# move cursor to points
-		pyautogui.moveTo(cX, cY) 
+			# move cursor to points
+			pyautogui.moveTo(cX, cY) 
 
-		# pyautogui.move(oldX - newX, oldY - newY, duration=1)  # move mouse relative to its current position
+			# pyautogui.move(oldX - newX, oldY - newY, duration=1)  # move mouse relative to its current position
 
 	# show the frame
 	cv2.imshow("Frame", frame)
