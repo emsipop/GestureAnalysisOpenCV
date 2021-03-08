@@ -1,3 +1,4 @@
+
 import numpy as np
 import cv2 
 import pyautogui, sys #Used to import support for mouse functions
@@ -80,8 +81,10 @@ while(True):
 				print("Left")
 				x-= sensitivity
 
-			#moves mouse
-			pyautogui.moveTo(x,y)
+			#Boundary to check if mouse is in boundary
+			if 0 < x < 1920 and 0 < y < 1080:
+				#moves mouse
+				pyautogui.moveTo(x,y)
 
 
 	#Shows the frame
@@ -94,3 +97,4 @@ while(True):
 
 cap.release()
 cv2.destroyAllWindows()
+
