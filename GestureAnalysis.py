@@ -1,28 +1,40 @@
-
 import numpy as np
-import cv2, sys, pyautogui # import mouse & keyboard control
+import cv2 
+import pyautogui, sys #Used to import support for mouse functions
 
-# capture video input
+#init camara
 cap = cv2.VideoCapture(0)
 
-while(True):
+#stores the width and height of frame
+frame_width = int(cap.get(3))
+frame_height = int(cap.get(4))
+#stores the centre of the frame
+frame_width_centre = round(frame_width/2)
+frame_height_centre = round(frame_height/2)
+#Stores the x and y in the middle of a 1080 x 1920p monitor
+x = 960
+y = 540
+#pixels per frame
+sensitivity = 5
 
-	# store video frame, flip, resize, and set resolution
+while(True):
+	#Stores the frame from vid
 	ret, frame = cap.read()
+	#flips the image 
 	frame = cv2.flip(frame,1)
-	frame = cv2.resize(frame,(1920,1080), fx=0,fy=0, interpolation= cv2.INTER_CUBIC)
-	
+
 	# convert frame from RGB to HSV
 	hsvim = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
 	# store lowest and highest HSV values
-	lower = np.array([21, 79, 0], dtype = np.uint8)
-	upper = np.array([70, 135, 242], dtype = np.uint8)
+	lower = np.array([20, 90, 160], dtype = np.uint8)
+	upper = np.array([45, 255, 255], dtype = np.uint8)
 	skinRegionHSV = cv2.inRange(hsvim, lower, upper)
 
 	# blur image & set threshold
 	blurred = cv2.GaussianBlur(skinRegionHSV,(5,5),0)
 	ret,thresh = cv2.threshold(blurred,240,255,cv2.THRESH_BINARY)
+	cv2.imshow("b", thresh)
 	
 	# store image if it's within the HSV range - if no contour is present then skip if statement
 	contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -46,20 +58,39 @@ while(True):
 			# draw circle in centre of the hull
 			cv2.circle(frame, (cX, cY), 5, (255, 255, 255), -1)
 
-			# move cursor to points
-			pyautogui.moveTo(cX, cY) 
+			#Creates rectangles that act as a guide
+			cv2.rectangle(frame,(270,70),(370,170),(255,255,0),5)
+			cv2.rectangle(frame,(270,410),(370,310),(255,255,0),5)
+			cv2.rectangle(frame,(430,290),(530,190),(255,255,0),5)
+			cv2.rectangle(frame,(110,290),(210,190),(255,255,0),5)
 
-			# pyautogui.move(oldX - newX, oldY - newY, duration=1)  # move mouse relative to its current position
+			
+			#Checks if the hand point is in the rectangle guides set out
+			#And changes x and y postions accordingly
+			if 270 < cX < 370 and 170 > cY > 70:
+				print("Up")
+				y-= sensitivity
+			elif 270 < cX < 370 and 410 > cY > 310:
+				print("Down")
+				y+= sensitivity
+			elif 430 < cX < 530 and 290 > cY > 190:
+				print("Right")
+				x+= sensitivity
+			elif 110 < cX < 210 and 290 > cY > 190:
+				print("Left")
+				x-= sensitivity
 
-	# show the frame
-	cv2.imshow("Frame", frame)
+			#moves mouse
+			pyautogui.moveTo(x,y)
 
-	# end loop on 'esc'
+
+	#Shows the frame
+	cv2.imshow("track", frame)
+
+	#Used to end loop
 	ch = cv2.waitKey(1)
 	if ch & 0xFF == 27:
 		break
 
-# release resources and destroy open windows
 cap.release()
 cv2.destroyAllWindows()
-
