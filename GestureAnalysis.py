@@ -62,20 +62,23 @@ while(True):
 			# if the angle is less than 90 degrees (1.571 rad) it is a finger
 			if theta <= np.pi / 2: 
 				raisedFingers += 1
-				cv2.circle(frame, far, 5, [0, 255, 255], -1)
+				cv2.circle(frame, far, 5, [0, 0, 255], -1)
 
+			if raisedFingers > 0:
+				raisedFingers += 1
+			print(raisedFingers)
 			cv2.putText(frame, str(raisedFingers), (0, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
 
 		# code for handling gestures
-		pyautogui.mouseUp()
-		if raisedFingers == 5: 
-			pyautogui.click(button = "left")
-		
-		elif raisedFingers == 4:
-			pyautogui.click(button = "right")
-		
-		elif raisedFingers == 2:
-			pyautogui.mouseDown() # should drag across screen ?? not sure, lazy implementation
+#		pyautogui.mouseUp()
+#		if raisedFingers == 5: 
+#			pyautogui.click(button = "left")
+#		
+#		elif raisedFingers == 4:
+#			pyautogui.click(button = "right")
+#		
+#		elif raisedFingers == 2:
+#			pyautogui.mouseDown() # should drag across screen ?? not sure, lazy implementation
 			
 
 		# store the values for the centre of the hull
