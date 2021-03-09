@@ -34,7 +34,8 @@ while(True):
 
 		# draw a hull around the contour previosuly created
 		hull = cv2.convexHull(contours, returnPoints= False)
-		#cv2.drawContours(frame, [hull], -1, (0, 255, 255), 2)
+		hullPoints = cv2.convexHull(contours)
+		cv2.drawContours(frame, [hullPoints], -1, (0, 255, 255), 2)
 
 		# gets the defects within the hull
 		defects = cv2.convexityDefects(contours, hull)
@@ -64,6 +65,8 @@ while(True):
 				cv2.circle(frame, far, 5, [0, 255, 255], -1)
 
 			cv2.putText(frame, str(raisedFingers), (0, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+
+		# code for handling gestures
 		pyautogui.mouseUp()
 		if raisedFingers == 5: 
 			pyautogui.click(button = "left")
@@ -76,19 +79,19 @@ while(True):
 			
 
 		# store the values for the centre of the hull
-		#M = cv2.moments(hull)
-		#if M['m00'] != 0: # prevents program from crashing due to divide-by-zero error
-		#	cX = int(M["m10"] / M["m00"])
-		#	cY = int(M["m01"] / M["m00"])
-		#
-		#	# draw circle in centre of the hull
-		#	cv2.circle(frame, (cX, cY), 5, (255, 255, 255), -1)
-		#
-		#	# move cursor to points
-		#	pyautogui.moveTo(cX, cY) 
-		#
-		#	# pyautogui.move(oldX - newX, oldY - newY, duration=1)  # move mouse relative to its current position
-		#
+		M = cv2.moments(hullPoints)
+		if M['m00'] != 0: # prevents program from crashing due to divide-by-zero error
+			cX = int(M["m10"] / M["m00"])
+			cY = int(M["m01"] / M["m00"])
+		
+			# draw circle in centre of the hull
+			cv2.circle(frame, (cX, cY), 5, (255, 255, 255), -1)
+		
+			# move cursor to points
+			pyautogui.moveTo(cX, cY) 
+		
+			# pyautogui.move(oldX - newX, oldY - newY, duration=1)  # move mouse relative to its current position
+		
 	# show the frame
 	cv2.imshow("Frame", frame)
 
