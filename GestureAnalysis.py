@@ -1,5 +1,4 @@
 
-
 import numpy as np
 import cv2 
 import pyautogui, sys #Used to import support for mouse functions
@@ -7,9 +6,18 @@ import pyautogui, sys #Used to import support for mouse functions
 def empty(a):
     pass
 
-#Imports the path to the cascade
-path = 'haarcascades/open_Palm.xml'
-objname = 'HAND'
+def left_Click():
+	print("Left click")
+	pyautogui.click()
+
+#Imports the path to palm cascade
+pathp = 'haarcascades/open_Palm.xml'
+objnamep = 'open_Palm'
+
+#Imports the path to the fist Cascade
+pathf = 'haarcascades/fist.xml'
+objnamef = 'fist'
+
 
 #init camara
 cap = cv2.VideoCapture(0)
@@ -23,6 +31,8 @@ frame_height_centre = round(frame_height/2)
 #Stores the x and y in the middle of a 1080 x 1920p monitor
 sX = 960
 sY = 540
+#pixels per frame
+#Only set sensitivity to even
 
 #Loads a new window with sliders to gather info
 cv2.namedWindow("Settings")
@@ -33,9 +43,10 @@ cv2.createTrackbar("Min Area", "Settings",1,100000,empty)
 cv2.createTrackbar("Brightness","Settings",100,255,empty)
 cv2.createTrackbar("Sensitivity","Settings",20,100,empty)
 cv2.createTrackbar("Check","Settings",0,1,empty)
-#Loads the cascade
-cascade = cv2.CascadeClassifier(path)
 
+#Loads the cascade
+cascadep = cv2.CascadeClassifier(pathp)
+cascadef = cv2.CascadeClassifier(pathf)
 while(True):
 	#Gets data from settings
 	sensitivity = int(cv2.getTrackbarPos("Sensitivity","Settings"))
@@ -52,10 +63,11 @@ while(True):
 	scaleVal = 1 +(cv2.getTrackbarPos("Scale","Settings")/1000)
 	neig = cv2.getTrackbarPos("Neig", "Settings")
 	# Creates the openPalm cascade
-	objs = cascade.detectMultiScale(gray,scaleVal,neig)
+	objsp = cascadep.detectMultiScale(gray,scaleVal,neig)
+	objsf = cascadef.detectMultiScale(gray,scaleVal,neig)
 
-	#Goes through the patterns within the cascade
-	for(x,y,w,h) in objs:
+	#Palm Cascade
+	for(x,y,w,h) in objsp:
 		#Object detection
 		area = w*h
 		minArea = cv2.getTrackbarPos("Min Area", "Settings")
@@ -64,7 +76,9 @@ while(True):
 				# store the values for the centre of the hull
 				cX = int(x+(w/2))
 				cY = int(y+(h/2))
-				cv2.circle(frame, (cX, cY), 5, (255, 255, 255), -1)
+				cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
+				cv2.putText(frame,objnamep,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+				cv2.circle(frame, (cX, cY), 5, (255, 0, 255), -1)
 				if check == 1:
 					# draw circle in centre of the hull
 					
@@ -165,8 +179,17 @@ while(True):
 					if 0 < x < 1920 and 0 < y < 1080:
 				#moves mouse
 						pyautogui.moveTo(sX,sY)
-
-
+	#Fist Cascade
+	for(x,y,w,h) in objsf:
+		area = w*h
+		minArea = cv2.getTrackbarPos("Min Area", "Settings")
+		if area > minArea:
+		# store the values for the centre of the hull
+			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
+			cv2.putText(frame,objnamef,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+			if check == 1:
+				left_Click()
+			
 	#Shows the frame
 	cv2.imshow("track", frame)
 
