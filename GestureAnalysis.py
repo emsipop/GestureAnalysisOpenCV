@@ -1,65 +1,202 @@
 
 import numpy as np
-import cv2, sys, pyautogui # import mouse & keyboard control
+import cv2 
+import pyautogui, sys #Used to import support for mouse functions
 
-# capture video input
+def empty(a):
+    pass
+
+def left_Click():
+	print("Left click")
+	pyautogui.click()
+
+#Imports the path to palm cascade
+pathp = 'haarcascades/open_Palm.xml'
+objnamep = 'open_Palm'
+
+#Imports the path to the fist Cascade
+pathf = 'haarcascades/fist.xml'
+objnamef = 'fist'
+
+
+#init camara
 cap = cv2.VideoCapture(0)
 
+#stores the width and height of frame
+frame_width = int(cap.get(3))
+frame_height = int(cap.get(4))
+#stores the centre of the frame
+frame_width_centre = round(frame_width/2)
+frame_height_centre = round(frame_height/2)
+#Stores the x and y in the middle of a 1080 x 1920p monitor
+sX = 960
+sY = 540
+#pixels per frame
+#Only set sensitivity to even
+
+#Loads a new window with sliders to gather info
+cv2.namedWindow("Settings")
+cv2.resizeWindow("Settings",frame_width,frame_height+100)
+cv2.createTrackbar("Scale","Settings",400,1000,empty)
+cv2.createTrackbar("Neig","Settings",8,20,empty)
+cv2.createTrackbar("Min Area", "Settings",1,100000,empty)
+cv2.createTrackbar("Brightness","Settings",100,255,empty)
+cv2.createTrackbar("Sensitivity","Settings",20,100,empty)
+cv2.createTrackbar("Check","Settings",0,1,empty)
+
+#Loads the cascade
+cascadep = cv2.CascadeClassifier(pathp)
+cascadef = cv2.CascadeClassifier(pathf)
 while(True):
-
-	# store video frame, flip, resize, and set resolution
-	ret, frame = cap.read()
+	#Gets data from settings
+	sensitivity = int(cv2.getTrackbarPos("Sensitivity","Settings"))
+	brightness = cv2.getTrackbarPos("Brightness","Settings")
+	check= cv2.getTrackbarPos("Check","Settings")
+	#Updates the frames brightness
+	cap.set(10, brightness)
+	#Stores the frame from vid
+	reg, frame = cap.read()
+	#flips the image 
 	frame = cv2.flip(frame,1)
-	frame = cv2.resize(frame,(1920,1080), fx=0,fy=0, interpolation= cv2.INTER_CUBIC)
+	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+	#Gets data from settings
+	scaleVal = 1 +(cv2.getTrackbarPos("Scale","Settings")/1000)
+	neig = cv2.getTrackbarPos("Neig", "Settings")
+	# Creates the openPalm cascade
+	objsp = cascadep.detectMultiScale(gray,scaleVal,neig)
+	objsf = cascadef.detectMultiScale(gray,scaleVal,neig)
+
+	#Palm Cascade
+	for(x,y,w,h) in objsp:
+		#Object detection
+		area = w*h
+		minArea = cv2.getTrackbarPos("Min Area", "Settings")
+		if area > minArea:
 	
-	# convert frame from RGB to HSV
-	hsvim = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+				# store the values for the centre of the hull
+				cX = int(x+(w/2))
+				cY = int(y+(h/2))
+				cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
+				cv2.putText(frame,objnamep,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+				cv2.circle(frame, (cX, cY), 5, (255, 0, 255), -1)
+				if check == 1:
+					# draw circle in centre of the hull
+					
 
-	# store lowest and highest HSV values
-	lower = np.array([21, 79, 0], dtype = np.uint8)
-	upper = np.array([70, 135, 242], dtype = np.uint8)
-	skinRegionHSV = cv2.inRange(hsvim, lower, upper)
+					#Creates rectangles that act as a guide
+					cv2.rectangle(frame,(270,70),(370,170),(255,255,0),5)
+					cv2.rectangle(frame,(270,410),(370,310),(255,255,0),5)
+					cv2.rectangle(frame,(430,290),(530,190),(255,255,0),5)
+					cv2.rectangle(frame,(110,290),(210,190),(255,255,0),5)
 
-	# blur image & set threshold
-	blurred = cv2.GaussianBlur(skinRegionHSV,(5,5),0)
-	ret,thresh = cv2.threshold(blurred,240,255,cv2.THRESH_BINARY)
-	
-	# store image if it's within the HSV range - if no contour is present then skip if statement
-	contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+					#Top right
+					cv2.rectangle(frame,(530,70),(480,120),(255,255,0),5)
+					cv2.rectangle(frame,(530,170),(480,120),(255,255,0),5)
+					cv2.rectangle(frame,(430,70),(480,120),(255,255,0),5)
+			
+					#Top left 
+					cv2.rectangle(frame,(110,70),(160,120),(255,255,0),5)
+					cv2.rectangle(frame,(210,70),(160,120),(255,255,0),5)
+					cv2.rectangle(frame,(110,170),(160,120),(255,255,0),5)
 
-	if(contours != []):
+					#Bottom right 
+					cv2.rectangle(frame,(530,410),(480,360),(255,255,0),5)
+					cv2.rectangle(frame,(530,310),(480,360),(255,255,0),5)
+					cv2.rectangle(frame,(430,410),(480,360),(255,255,0),5)
 
-		# draw contours around the selected HSV values
-		contours = max(contours, key=lambda x: cv2.contourArea(x))
-		cv2.drawContours(frame, [contours], -1, (255,255,0), 2)
+					#Bottom left
+					cv2.rectangle(frame,(110,410),(160,360),(255,255,0),5)
+					cv2.rectangle(frame,(110,310),(160,360),(255,255,0),5)
+					cv2.rectangle(frame,(210,410),(160,360),(255,255,0),5)
 
-		# draw a hull around the contour previosuly created
-		hull = cv2.convexHull(contours)
-		cv2.drawContours(frame, [hull], -1, (0, 255, 255), 2)
+					#Checks if the hand point is in the rectangle guides set out
+					#And changes x and y postions accordingly
+					if 270 < cX < 370 and 170 > cY > 70:
+						print("N")
+						sY-= sensitivity
+					elif 270 < cX < 370 and 410 > cY > 310:
+						print("S")
+						sY+= sensitivity
+					elif 430 < cX < 530 and 290 > cY > 190:
+						print("E")
+						sX+= sensitivity
+					elif 110 < cX < 210 and 290 > cY > 190:
+						print("W")
+						sX-= sensitivity
+					elif 480 < cX < 530 and 120 > cY > 70:
+						print("NE")
+						sY-= sensitivity 
+						sX+= sensitivity
+					elif 480 < cX < 530 and 170 > cY > 120:
+						print("NEE")
+						sX+= sensitivity
+						sY-= sensitivity/2
+					elif 430 < cX < 480 and 120 > cY > 70:
+						print("NNE")
+						sY-= sensitivity
+						sX+= sensitivity/2
+					elif 110 < cX < 160 and 120 > cY > 70:
+						print ("NW")
+						sY-= sensitivity 
+						sX-= sensitivity
+					elif 160 < cX < 210 and 120 > cY > 70:
+						print("NNW")
+						sY-= sensitivity 
+						sX-= sensitivity/2
+					elif 110 < cX < 160 and 170 > cY > 120:
+						print("NWW")
+						sY-= sensitivity/2
+						sX-= sensitivity
+					elif 480 < cX < 530 and 410 > cY > 360:
+						print("SE")
+						sY+= sensitivity 
+						sX+= sensitivity
+					elif 480 < cX < 530 and 360 > cY > 310:
+						print("SEE")
+						sY+= sensitivity/2 
+						sX+= sensitivity
+					elif 430 < cX < 480 and 410 > cY > 360:
+						print("SSE")
+						sY+= sensitivity 
+						sX+= sensitivity/2
+					elif 110 < cX < 160 and 410 > cY > 360:
+						print("SW")
+						sY+= sensitivity 
+						sX-= sensitivity
+					elif 110 < cX < 160 and 360 > cY > 310:
+						print("SWW")
+						sY+= sensitivity/2
+						sX-= sensitivity
+					elif 160 < cX < 210 and 410 > cY > 360:
+						print("SSW")
+						sY+= sensitivity 
+						sX-= sensitivity/2
 
+
+
+
+			#Boundary to check if mouse is in boundary
+					if 0 < x < 1920 and 0 < y < 1080:
+				#moves mouse
+						pyautogui.moveTo(sX,sY)
+	#Fist Cascade
+	for(x,y,w,h) in objsf:
+		area = w*h
+		minArea = cv2.getTrackbarPos("Min Area", "Settings")
+		if area > minArea:
 		# store the values for the centre of the hull
-		M = cv2.moments(hull)
-		if M['m00'] != 0: # prevents program from crashing due to divide-by-zero error
-			cX = int(M["m10"] / M["m00"])
-			cY = int(M["m01"] / M["m00"])
+			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
+			cv2.putText(frame,objnamef,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+			if check == 1:
+				left_Click()
+			
+	#Shows the frame
+	cv2.imshow("track", frame)
 
-			# draw circle in centre of the hull
-			cv2.circle(frame, (cX, cY), 5, (255, 255, 255), -1)
-
-			# move cursor to points
-			pyautogui.moveTo(cX, cY) 
-
-			# pyautogui.move(oldX - newX, oldY - newY, duration=1)  # move mouse relative to its current position
-
-	# show the frame
-	cv2.imshow("Frame", frame)
-
-	# end loop on 'esc'
+	#Used to end loop
 	ch = cv2.waitKey(1)
 	if ch & 0xFF == 27:
 		break
 
-# release resources and destroy open windows
 cap.release()
 cv2.destroyAllWindows()
-
