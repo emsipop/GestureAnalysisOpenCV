@@ -1,7 +1,7 @@
 import numpy as np
 import cv2 
 import pyautogui, sys #Used to import support for mouse functions
-import threading 
+import time
 #==========================================#
 def empty(a):
     pass
@@ -33,13 +33,6 @@ def create_squares():
 	cv2.rectangle(frame,(110,410),(160,360),(255,255,0),5)
 	cv2.rectangle(frame,(110,310),(160,360),(255,255,0),5)
 	cv2.rectangle(frame,(210,410),(160,360),(255,255,0),5)
-
-
-
-def timerClick():
-	click_bool = 0
-	print("false")
-	timer.cancel()
 	
 #==========================================#
 #Imports the path to palm cascade
@@ -70,8 +63,9 @@ objName_okay = 'okay'
 path_peace = 'haarscascades/peace.xml'
 objName_peace = 'peace'
 #==========================================#
-global click_bool
-click_bool = 0
+left_click_time = 0
+right_click_time = 0 
+double_click_time = 0
 
 #init camara
 cap = cv2.VideoCapture(0)
@@ -139,7 +133,9 @@ while(True):
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
 			cv2.putText(frame,objName_palm,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
 			cv2.circle(frame, (cX, cY), 5, (255, 0, 255), -1)
+			
 			create_squares()
+
 			if 270 < cX < 370 and 170 > cY > 70:
 						print("N")
 						sY-= sensitivity
@@ -208,6 +204,7 @@ while(True):
 			if 0 < x < 1920 and 0 < y < 1080:
 				#moves mouse
 				pyautogui.moveTo(sX,sY)
+			
 #==========================================#
 	#Fist Cascade
 	for(x,y,w,h) in objs_fist:
@@ -217,12 +214,15 @@ while(True):
 		# store the values for the centre of the hull
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
 			cv2.putText(frame,objName_fist,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
-			if (click_bool == 0):
-				pyautogui.leftClick()
+			left_click_current_time = time.time()
+			diff = left_click_current_time - left_click_time
+			if (diff > 5):
 				print("Left click")
-				click_bool = 0
-				timer = threading.Timer(2.0, timerClick)
-				timer.start()
+				pyautogui.click()
+				left_click_time = left_click_current_time
+			else:
+				print("Please wait, left click is on a cooldown")
+
 #==========================================#
 	#Thumb Cascade
 	for(x,y,w,h) in objs_thumb:
@@ -232,6 +232,14 @@ while(True):
 		# store the values for the centre of the hull
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
 			cv2.putText(frame,objName_thumb,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+			right_click_current_time = time.time()
+			diff = right_click_current_time - right_click_time
+			if (diff > 5):
+				print("Right click")
+				pyautogui.click(button = 'right')
+				right_click_time = right_click_current_time
+			else:
+				print("Please wait, Right click is on a cooldown")
 #==========================================#
 	#Okay Cascade
 	for(x,y,w,h) in objs_okay:
@@ -251,7 +259,14 @@ while(True):
 			#store the values for the centre of the hull
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
 			cv2.putText(frame,objName_peace,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
-
+			double_click_current_time = time.time()
+			diff = double_click_current_time - double_click_time
+			if (diff > 5):
+				print("Double click")
+				pyautogui.click(clicks = 2)
+				double_click_time = double_click_current_time
+			else:
+				print("Please wait, Double click is on a cooldown")
 #==========================================#
 	#Shows the frame
 	cv2.imshow("track", frame)
@@ -264,3 +279,4 @@ while(True):
 cap.release()
 cv2.destroyAllWindows()
 #==========================================#
+
