@@ -1,7 +1,6 @@
-import numpy as np
-import cv2 
-import pyautogui, sys #Used to import support for mouse functions
-import time
+import numpy as np # required for cv2 library
+import pyautogui, sys, time, cv2  #Used to import support for mouse functions
+
 #==========================================#
 def empty(a):
     pass
@@ -60,6 +59,7 @@ peace_object = 'peace'
 left_click_time = 0
 right_click_time = 0 
 double_click_time = 0
+# rather than several variables this could be object properties if gestures are changed to objects later
 
 # initialises the device's camera
 cap = cv2.VideoCapture(0)
