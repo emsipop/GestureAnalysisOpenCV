@@ -34,108 +34,127 @@ def create_squares():
 	cv2.rectangle(frame,(110,310),(160,360),(255,255,0),5)
 	cv2.rectangle(frame,(210,410),(160,360),(255,255,0),5)
 	
-#==========================================#
-#Imports the path to palm cascade
+# ----------------- handles the import of the cascades ----------------- #
+# Imports the path to palm cascade
 path_palm = 'haarscascades/palm.xml'
-objName_palm = 'palm'
-#==========================================#
+palm_object = 'palm'
 
-#==========================================#
-#Imports the path to the fist Cascade
+# Imports the path to the fist Cascade
 path_fist = 'haarscascades/fist.xml'
-objName_fist = 'fist'
-#==========================================#
+fist_object = 'fist'
 
-#==========================================#
-#Imports the path to the fist Cascade
+# Imports the path to the fist Cascade
 path_thumb = 'haarscascades/thumb.xml'
-objName_thumb = 'thumb'
-#==========================================#
+thumb_object = 'thumb'
 
-#==========================================#
-#Imports the path to the fist Cascade
+# Imports the path to the fist Cascade
 path_okay = 'haarscascades/okay.xml'
-objName_okay = 'okay'
-#==========================================#
+okay_object = 'okay'
 
-#==========================================#
-#Imports the path to the fist Cascade
+# Imports the path to the fist Cascade
 path_peace = 'haarscascades/peace.xml'
-objName_peace = 'peace'
-#==========================================#
+peace_object = 'peace'
+# ---------------------------------------------------------------------- #
+
+# sets initial values for variables used to control click cooldowns, to avoid "spamming" inputs
 left_click_time = 0
 right_click_time = 0 
 double_click_time = 0
 
-#init camara
+# initialises the device's camera
 cap = cv2.VideoCapture(0)
+# error detection needs to be added here to determine internal/external webcam
 
-#stores the width and height of frame
+# stores the width and height of frame
 frame_width = int(cap.get(3))
 frame_height = int(cap.get(4))
-#stores the centre of the frame
+# stores the centre point of the frame
 frame_width_centre = round(frame_width/2)
 frame_height_centre = round(frame_height/2)
-#Stores the x and y in the middle of a 1080 x 1920p monitor
+# stores the x and y in the middle of a 1080 x 1920p monitor
 sX = 960
 sY = 540
+# could be swapped out to win32api.GetSystemMetrics() / 2 maybe
 
-#==========================================#
-#Loads a new window with sliders to gather info
+# creates a window with sliders to control object detection parameters
 cv2.namedWindow("Settings")
 cv2.resizeWindow("Settings",frame_width,frame_height+100)
+
+ # options sliders
 cv2.createTrackbar("Scale","Settings",400,1000,empty)
 cv2.createTrackbar("Neig","Settings",8,20,empty)
 cv2.createTrackbar("Min Area", "Settings",1,100000,empty)
 cv2.createTrackbar("Brightness","Settings",100,255,empty)
 cv2.createTrackbar("Sensitivity","Settings",20,100,empty)
+cv2.createTrackbar("Click Cooldown","Settings",5,10,empty)
 cv2.createTrackbar("Check","Settings",0,1,empty)
+
 #==========================================#
+scale_value = 400
+# creates the cascade classifiers
 cascade_palm = cv2.CascadeClassifier(path_palm)
 cascade_fist = cv2.CascadeClassifier(path_fist)
 cascade_thumb = cv2.CascadeClassifier(path_thumb)
 cascade_okay = cv2.CascadeClassifier(path_okay)
 cascade_peace = cv2.CascadeClassifier(path_peace)
 #==========================================#
+
+# main part of the program - runs the object detections and webcam feed
 while(True):
-	#Gets data from settings
+	# Gets data from settings
 	sensitivity = int(cv2.getTrackbarPos("Sensitivity","Settings"))
 	brightness = cv2.getTrackbarPos("Brightness","Settings")
-	check= cv2.getTrackbarPos("Check","Settings")
-	#Updates the frames brightness
+	check = cv2.getTrackbarPos("Check","Settings")
+	user_cooldown = cv2.getTrackbarPos("Click Cooldown","Settings") # individual cooldowns could be created per gesture if these were objects
+
+	# Updates the frames brightness
 	cap.set(10, brightness)
-	#Stores the frame from vid
+
+	# Stores the frame from webcam
 	reg, frame = cap.read()
-	#flips the image 
+
+	# flips the image 
 	frame = cv2.flip(frame,1)
-	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-	#Gets data from settings
-	scaleVal = 1 +(cv2.getTrackbarPos("Scale","Settings")/1000)
+	grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+	# the opencv trackbar does not allow for a minimum value, so this if statement controls it to avoid a crash
+	if cv2.getTrackbarPos("Scale","Settings")/1000 == 0:
+		scale_value = 30 # not an optimal value but avoids a crash - if the scale is too low it blitzes the screen with false positives
+	else:
+		scale_value = 1 +(cv2.getTrackbarPos("Scale","Settings")/1000) # sets the value to what the user has chosen
+
+    # gets neighbours value 
 	neig = cv2.getTrackbarPos("Neig", "Settings")
-	# Creates the openPalm cascade
-	objs_palm = cascade_palm.detectMultiScale(gray,scaleVal,neig)
-	objs_fist = cascade_fist.detectMultiScale(gray,scaleVal,neig)
-	objs_thumb = cascade_thumb.detectMultiScale(gray,scaleVal,neig)
-	objs_okay = cascade_okay.detectMultiScale(gray,scaleVal,neig)
-	objs_peace = cascade_peace.detectMultiScale(gray,scaleVal,neig)
+
+	# Creates the objects for the gestures from the cascades
+	objs_palm = cascade_palm.detectMultiScale(grey,scale_value,neig)
+	objs_fist = cascade_fist.detectMultiScale(grey,scale_value,neig)
+	objs_thumb = cascade_thumb.detectMultiScale(grey,scale_value,neig)
+	objs_okay = cascade_okay.detectMultiScale(grey,scale_value,neig)
+	objs_peace = cascade_peace.detectMultiScale(grey,scale_value,neig)
 
 #==========================================#
-	#Palm Cascade
-	for(x,y,w,h) in objs_palm:
-		#Object detection
-		area = w*h
-		minArea = cv2.getTrackbarPos("Min Area", "Settings")
+
+	# Palm Cascade
+	for (x,y,w,h) in objs_palm:
+		# Object detection
+		area = w*h 
+		minArea = cv2.getTrackbarPos("Min Area", "Settings") # gets the user set Area
+
 		if area > minArea:
 	
-			# store the values for the centre of the hull
+			# store the values for the centre of the object 
 			cX = int(x+(w/2))
 			cY = int(y+(h/2))
-			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
-			cv2.putText(frame,objName_palm,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
-			cv2.circle(frame, (cX, cY), 5, (255, 0, 255), -1)
-			
-			create_squares()
 
+			# draws and labels the gesture it has recognised
+			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
+			cv2.putText(frame,palm_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+			cv2.circle(frame, (cX, cY), 5, (255, 0, 255), -1) # centre circle
+			
+			create_squares() # draws the squares for cursor control
+
+			# big ass if statement for each direction the mouse can move - maybe we should clean it up
 			if 270 < cX < 370 and 170 > cY > 70:
 						print("N")
 						sY-= sensitivity
@@ -197,79 +216,93 @@ while(True):
 						sY+= sensitivity 
 						sX-= sensitivity/2
 
-
-
-
-			#Boundary to check if mouse is in boundary
+			# if statement to check if mouse is inside the monitor window size
 			if 0 < x < 1920 and 0 < y < 1080:
 				#moves mouse
 				pyautogui.moveTo(sX,sY)
 			
 #==========================================#
-	#Fist Cascade
-	for(x,y,w,h) in objs_fist:
+	# Fist Cascade
+	for (x,y,w,h) in objs_fist:
 		area = w*h
-		minArea = cv2.getTrackbarPos("Min Area", "Settings")
+		minArea = cv2.getTrackbarPos("Min Area", "Settings") # user set min area
 		if area > minArea:
-		# store the values for the centre of the hull
+			# labels the gesture
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
-			cv2.putText(frame,objName_fist,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+			cv2.putText(frame,fist_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+
+			# handles the cooldown to avoid spamming inputs
 			left_click_current_time = time.time()
-			diff = left_click_current_time - left_click_time
-			if (diff > 5):
+			diff = left_click_current_time - left_click_time # current duration for cooldown 
+
+			if (diff > user_cooldown): 
 				print("Left click")
-				pyautogui.click()
+				pyautogui.click(button = "left", clicks = 1)
 				left_click_time = left_click_current_time
 			else:
 				print("Please wait, left click is on a cooldown")
 
 #==========================================#
-	#Thumb Cascade
-	for(x,y,w,h) in objs_thumb:
+	# Thumb Cascade
+	for (x,y,w,h) in objs_thumb:
 		area = w*h
-		minArea = cv2.getTrackbarPos("Min Area", "Settings")
+		minArea = cv2.getTrackbarPos("Min Area", "Settings") # user set min area
 		if area > minArea:
-		# store the values for the centre of the hull
+			# labels the gesture			
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
-			cv2.putText(frame,objName_thumb,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+			cv2.putText(frame,thumb_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+			
+			# handles the click cooldown
 			right_click_current_time = time.time()
 			diff = right_click_current_time - right_click_time
-			if (diff > 5):
+			if (diff > user_cooldown): 
 				print("Right click")
-				pyautogui.click(button = 'right')
+				pyautogui.click(button = 'right', clicks = 1)
 				right_click_time = right_click_current_time
 			else:
-				print("Please wait, Right click is on a cooldown")
+				print("Please wait, right click is on a cooldown")
+
 #==========================================#
-	#Okay Cascade
-	for(x,y,w,h) in objs_okay:
+	# Okay Cascade
+	for (x,y,w,h) in objs_okay:
 		area = w*h
 		minArea = cv2.getTrackbarPos("Min Area", "Settings")
 		if area > minArea:
-		# store the values for the centre of the hull
+			# labels okay gesture
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
-			cv2.putText(frame,objName_okay,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+			cv2.putText(frame,okay_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+
+			# OKAY GESTURE FUNCTION GOES HERE
+			#
+			#
+			#
+
 #==========================================#
 
-	#Peace Cascade
+	# Peace Cascade
 	for(x,y,w,h) in objs_peace:
 		area = w*h
 		minArea = cv2.getTrackbarPos("Min Area", "Settings")
 		if area > minArea:
-			#store the values for the centre of the hull
+			# labels the peace gesture
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
-			cv2.putText(frame,objName_peace,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+			cv2.putText(frame,peace_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+
+			# handles the cooldown for the click
 			double_click_current_time = time.time()
 			diff = double_click_current_time - double_click_time
-			if (diff > 5):
+
+			if (diff > user_cooldown):
 				print("Double click")
-				pyautogui.click(clicks = 2)
+				pyautogui.click(button = "left" , clicks = 2)
 				double_click_time = double_click_current_time
 			else:
 				print("Please wait, Double click is on a cooldown")
+
 #==========================================#
 	#Shows the frame
-	cv2.imshow("track", frame)
+	cv2.imshow("OnlyHands Gesture Control System", frame)
+
 #==========================================#
 	#Used to end loop
 	ch = cv2.waitKey(1)
