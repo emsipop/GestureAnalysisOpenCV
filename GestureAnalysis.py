@@ -8,26 +8,26 @@ def empty(a):
 def create_squares():
 		#Creates rectangles that act as a guide
 
-	cv2.rectangle(frame,(270,70),(370,170),(255,0,0),5)
-	cv2.rectangle(frame,(270,410),(370,310),(255,0,0),5)
-	cv2.rectangle(frame,(430,290),(530,190),(255,0,0),5)
-	cv2.rectangle(frame,(110,290),(210,190),(255,0,0),5)
+	cv2.rectangle(frame,(270,70),(370,170),(255,255,0),5)
+	cv2.rectangle(frame,(270,410),(370,310),(255,255,0),5)
+	cv2.rectangle(frame,(430,290),(530,190),(255,255,0),5)
+	cv2.rectangle(frame,(110,290),(210,190),(255,255,0),5)
 
 					#Top right
 	cv2.rectangle(frame,(530,170),(480,70),(255,255,0),5)
 	cv2.rectangle(frame,(430,70),(530,120),(255,255,0),5)
 			
 					#Top left 
-	cv2.rectangle(frame,(110,70),(160,170),(255,255,0),5)
-	cv2.rectangle(frame,(110,70),(210,120),(255,255,0),5)
+	cv2.rectangle(frame,(110,70),(160,170),(colour2),5)
+	cv2.rectangle(frame,(110,70),(210,120),(colour2),5)
 	
 					#Bottom right 
-	cv2.rectangle(frame,(530,310),(480,410),(255,255,0),5)
-	cv2.rectangle(frame,(430,410),(530,360),(255,255,0),5)
+	cv2.rectangle(frame,(530,310),(480,410),(colour2),5)
+	cv2.rectangle(frame,(430,410),(530,360),(colour2),5)
 
 					#Bottom left
-	cv2.rectangle(frame,(110,310),(160,410),(255,255,0),5)
-	cv2.rectangle(frame,(210,410),(110,360),(255,255,0),5)
+	cv2.rectangle(frame,(110,310),(160,410),(colour2),5)
+	cv2.rectangle(frame,(210,410),(110,360),(colour2),5)
 	
 # ----------------- handles the import of the cascades ----------------- #
 # Imports the path to palm cascade
@@ -61,6 +61,9 @@ double_click_time = 0
 prev_frame = 0
 new_frame = 0
 
+#Standardising the colour scheme
+colour1 = (255,0,255)
+colour2 = (255,255,0)
 # initialises the device's camera
 cap = cv2.VideoCapture(0)
 # error detection needs to be added here to determine internal/external webcam
@@ -148,9 +151,9 @@ while(True):
 			cY = int(y+(h/2))
 
 			# draws and labels the gesture it has recognised
-			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
-			cv2.putText(frame,palm_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
-			cv2.circle(frame, (cX, cY), 5, (255, 0, 255), -1) # centre circle
+			cv2.rectangle(frame,(x,y),(x+w,y+h),(colour1),3)
+			cv2.putText(frame,palm_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
+			cv2.circle(frame, (cX, cY), 5, (colour2), -1) # centre circle
 			if check == 1:
 				create_squares() # draws the squares for cursor control
 
@@ -228,8 +231,8 @@ while(True):
 		minArea = cv2.getTrackbarPos("Min Area", "Settings") # user set min area
 		if area > minArea:
 			# labels the gesture
-			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
-			cv2.putText(frame,fist_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+			cv2.rectangle(frame,(x,y),(x+w,y+h),(colour1),3)
+			cv2.putText(frame,fist_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
 			if check == 1:
 				# handles the cooldown to avoid spamming inputs
 				left_click_current_time = time.time()
@@ -249,8 +252,8 @@ while(True):
 		minArea = cv2.getTrackbarPos("Min Area", "Settings") # user set min area
 		if area > minArea:
 			# labels the gesture			
-			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
-			cv2.putText(frame,thumb_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+			cv2.rectangle(frame,(x,y),(x+w,y+h),(colour1),3)
+			cv2.putText(frame,thumb_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
 			if check == 1:
 				# handles the click cooldown
 				right_click_current_time = time.time()
@@ -285,8 +288,8 @@ while(True):
 		minArea = cv2.getTrackbarPos("Min Area", "Settings")
 		if area > minArea:
 			# labels the peace gesture
-			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
-			cv2.putText(frame,peace_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+			cv2.rectangle(frame,(x,y),(x+w,y+h),(colour1),3)
+			cv2.putText(frame,peace_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
 			if check == 1:
 				# handles the cooldown for the click
 				double_click_current_time = time.time()
@@ -305,7 +308,7 @@ while(True):
 	prev_frame = new_frame
 	fps = int(fps)
 	fps = str(fps)
-	cv2.putText(frame, "FPS = "+fps,(1,20),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+	cv2.putText(frame, "FPS = "+fps,(1,20),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour2),2)
 #==========================================#
 	#Shows the frame
 	cv2.imshow("OnlyHands Gesture Control System", frame)
