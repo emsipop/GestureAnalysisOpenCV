@@ -6,32 +6,28 @@ def empty(a):
     pass
 #==========================================#
 def create_squares():
-	#Creates rectangles that act as a guide
+		#Creates rectangles that act as a guide
 
-	cv2.rectangle(frame,(270,70),(370,170),(255,255,0),5)
-	cv2.rectangle(frame,(270,410),(370,310),(255,255,0),5)
-	cv2.rectangle(frame,(430,290),(530,190),(255,255,0),5)
-	cv2.rectangle(frame,(110,290),(210,190),(255,255,0),5)
+	cv2.rectangle(frame,(270,70),(370,170),(255,0,0),5)
+	cv2.rectangle(frame,(270,410),(370,310),(255,0,0),5)
+	cv2.rectangle(frame,(430,290),(530,190),(255,0,0),5)
+	cv2.rectangle(frame,(110,290),(210,190),(255,0,0),5)
 
 					#Top right
-	cv2.rectangle(frame,(530,70),(480,120),(255,255,0),5)
-	cv2.rectangle(frame,(530,170),(480,120),(255,255,0),5)
-	cv2.rectangle(frame,(430,70),(480,120),(255,255,0),5)
+	cv2.rectangle(frame,(530,170),(480,70),(255,255,0),5)
+	cv2.rectangle(frame,(430,70),(530,120),(255,255,0),5)
 			
 					#Top left 
-	cv2.rectangle(frame,(110,70),(160,120),(255,255,0),5)
-	cv2.rectangle(frame,(210,70),(160,120),(255,255,0),5)
-	cv2.rectangle(frame,(110,170),(160,120),(255,255,0),5)
-
+	cv2.rectangle(frame,(110,70),(160,170),(255,255,0),5)
+	cv2.rectangle(frame,(110,70),(210,120),(255,255,0),5)
+	
 					#Bottom right 
-	cv2.rectangle(frame,(530,410),(480,360),(255,255,0),5)
-	cv2.rectangle(frame,(530,310),(480,360),(255,255,0),5)
-	cv2.rectangle(frame,(430,410),(480,360),(255,255,0),5)
+	cv2.rectangle(frame,(530,310),(480,410),(255,255,0),5)
+	cv2.rectangle(frame,(430,410),(530,360),(255,255,0),5)
 
 					#Bottom left
-	cv2.rectangle(frame,(110,410),(160,360),(255,255,0),5)
-	cv2.rectangle(frame,(110,310),(160,360),(255,255,0),5)
-	cv2.rectangle(frame,(210,410),(160,360),(255,255,0),5)
+	cv2.rectangle(frame,(110,310),(160,410),(255,255,0),5)
+	cv2.rectangle(frame,(210,410),(110,360),(255,255,0),5)
 	
 # ----------------- handles the import of the cascades ----------------- #
 # Imports the path to palm cascade
@@ -115,7 +111,7 @@ while(True):
 
 	# flips the image 
 	frame = cv2.flip(frame,1)
-	grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+	
 
 	# the opencv trackbar does not allow for a minimum value, so this if statement controls it to avoid a crash
 	if cv2.getTrackbarPos("Scale","Settings")/1000 == 0:
@@ -127,11 +123,11 @@ while(True):
 	neig = cv2.getTrackbarPos("Neig", "Settings")
 
 	# Creates the objects for the gestures from the cascades
-	objs_palm = cascade_palm.detectMultiScale(grey,scale_value,neig)
-	objs_fist = cascade_fist.detectMultiScale(grey,scale_value,neig)
-	objs_thumb = cascade_thumb.detectMultiScale(grey,scale_value,neig)
-	objs_okay = cascade_okay.detectMultiScale(grey,scale_value,neig)
-	objs_peace = cascade_peace.detectMultiScale(grey,scale_value,neig)
+	objs_palm = cascade_palm.detectMultiScale(frame,scale_value,neig)
+	objs_fist = cascade_fist.detectMultiScale(frame,scale_value,neig)
+	objs_thumb = cascade_thumb.detectMultiScale(frame,scale_value,neig)
+	objs_okay = cascade_okay.detectMultiScale(frame,scale_value,neig)
+	objs_peace = cascade_peace.detectMultiScale(frame,scale_value,neig)
 
 #==========================================#
 
