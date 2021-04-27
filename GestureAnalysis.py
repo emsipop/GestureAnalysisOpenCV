@@ -87,7 +87,7 @@ cv2.createTrackbar("Min Area", "Settings",1,100000,empty)
 cv2.createTrackbar("Brightness","Settings",100,255,empty)
 cv2.createTrackbar("Sensitivity","Settings",20,100,empty)
 cv2.createTrackbar("Click Cooldown","Settings",5,10,empty)
-cv2.createTrackbar("Check","Settings",0,1,empty)
+cv2.createTrackbar("Activate","Settings",0,1,empty)
 
 #==========================================#
 scale_value = 400
@@ -104,7 +104,7 @@ while(True):
 	# Gets data from settings
 	sensitivity = int(cv2.getTrackbarPos("Sensitivity","Settings"))
 	brightness = cv2.getTrackbarPos("Brightness","Settings")
-	check = cv2.getTrackbarPos("Check","Settings")
+	check = cv2.getTrackbarPos("Activate","Settings")
 	user_cooldown = cv2.getTrackbarPos("Click Cooldown","Settings") # individual cooldowns could be created per gesture if these were objects
 
 	# Updates the frames brightness
@@ -151,75 +151,75 @@ while(True):
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
 			cv2.putText(frame,palm_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
 			cv2.circle(frame, (cX, cY), 5, (255, 0, 255), -1) # centre circle
-			
-			create_squares() # draws the squares for cursor control
+			if check == 1:
+				create_squares() # draws the squares for cursor control
 
-			# big ass if statement for each direction the mouse can move - maybe we should clean it up
-			if 270 < cX < 370 and 170 > cY > 70:
+				# big ass if statement for each direction the mouse can move - maybe we should clean it up
+				if 270 < cX < 370 and 170 > cY > 70:
 						print("N")
 						sY-= sensitivity
-			elif 270 < cX < 370 and 410 > cY > 310:
+				elif 270 < cX < 370 and 410 > cY > 310:
 						print("S")
 						sY+= sensitivity
-			elif 430 < cX < 530 and 290 > cY > 190:
+				elif 430 < cX < 530 and 290 > cY > 190:
 						print("E")
 						sX+= sensitivity
-			elif 110 < cX < 210 and 290 > cY > 190:
+				elif 110 < cX < 210 and 290 > cY > 190:
 						print("W")
 						sX-= sensitivity
-			elif 480 < cX < 530 and 120 > cY > 70:
+				elif 480 < cX < 530 and 120 > cY > 70:
 						print("NE")
 						sY-= sensitivity 
 						sX+= sensitivity
-			elif 480 < cX < 530 and 170 > cY > 120:
+				elif 480 < cX < 530 and 170 > cY > 120:
 						print("NEE")
 						sX+= sensitivity
 						sY-= sensitivity/2
-			elif 430 < cX < 480 and 120 > cY > 70:
+				elif 430 < cX < 480 and 120 > cY > 70:
 						print("NNE")
 						sY-= sensitivity
 						sX+= sensitivity/2
-			elif 110 < cX < 160 and 120 > cY > 70:
+				elif 110 < cX < 160 and 120 > cY > 70:
 						print ("NW")
 						sY-= sensitivity 
 						sX-= sensitivity
-			elif 160 < cX < 210 and 120 > cY > 70:
+				elif 160 < cX < 210 and 120 > cY > 70:
 						print("NNW")
 						sY-= sensitivity 
 						sX-= sensitivity/2
-			elif 110 < cX < 160 and 170 > cY > 120:
+				elif 110 < cX < 160 and 170 > cY > 120:
 						print("NWW")
 						sY-= sensitivity/2
 						sX-= sensitivity
-			elif 480 < cX < 530 and 410 > cY > 360:
+				elif 480 < cX < 530 and 410 > cY > 360:
 						print("SE")
 						sY+= sensitivity 
 						sX+= sensitivity
-			elif 480 < cX < 530 and 360 > cY > 310:
+				elif 480 < cX < 530 and 360 > cY > 310:
 						print("SEE")
 						sY+= sensitivity/2 
 						sX+= sensitivity
-			elif 430 < cX < 480 and 410 > cY > 360:
+				elif 430 < cX < 480 and 410 > cY > 360:
 						print("SSE")
 						sY+= sensitivity 
 						sX+= sensitivity/2
-			elif 110 < cX < 160 and 410 > cY > 360:
+				elif 110 < cX < 160 and 410 > cY > 360:
 						print("SW")
 						sY+= sensitivity 
 						sX-= sensitivity
-			elif 110 < cX < 160 and 360 > cY > 310:
+				elif 110 < cX < 160 and 360 > cY > 310:
 						print("SWW")
 						sY+= sensitivity/2
 						sX-= sensitivity
-			elif 160 < cX < 210 and 410 > cY > 360:
+				elif 160 < cX < 210 and 410 > cY > 360:
 						print("SSW")
 						sY+= sensitivity 
 						sX-= sensitivity/2
 
 			# if statement to check if mouse is inside the monitor window size
-			if 0 < x < 1920 and 0 < y < 1080:
+				if 0 < x < 1920 and 0 < y < 1080:
 				#moves mouse
-				pyautogui.moveTo(sX,sY)
+					pyautogui.moveTo(sX,sY)
 			
 #==========================================#
 	# Fist Cascade
@@ -230,17 +230,17 @@ while(True):
 			# labels the gesture
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
 			cv2.putText(frame,fist_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+			if check == 1:
+				# handles the cooldown to avoid spamming inputs
+				left_click_current_time = time.time()
+				diff = left_click_current_time - left_click_time # current duration for cooldown 
 
-			# handles the cooldown to avoid spamming inputs
-			left_click_current_time = time.time()
-			diff = left_click_current_time - left_click_time # current duration for cooldown 
-
-			if (diff > user_cooldown): 
-				print("Left click")
-				pyautogui.click(button = "left", clicks = 1)
-				left_click_time = left_click_current_time
-			else:
-				print("Please wait, left click is on a cooldown")
+				if (diff > user_cooldown): 
+					print("Left click")
+					pyautogui.click(button = "left", clicks = 1)
+					left_click_time = left_click_current_time
+				else:
+					print("Please wait, left click is on a cooldown")
 
 #==========================================#
 	# Thumb Cascade
@@ -251,26 +251,26 @@ while(True):
 			# labels the gesture			
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
 			cv2.putText(frame,thumb_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
-			
-			# handles the click cooldown
-			right_click_current_time = time.time()
-			diff = right_click_current_time - right_click_time
-			if (diff > user_cooldown): 
-				print("Right click")
-				pyautogui.click(button = 'right', clicks = 1)
-				right_click_time = right_click_current_time
-			else:
-				print("Please wait, right click is on a cooldown")
+			if check == 1:
+				# handles the click cooldown
+				right_click_current_time = time.time()
+				diff = right_click_current_time - right_click_time
+				if (diff > user_cooldown): 
+					print("Right click")
+					pyautogui.click(button = 'right', clicks = 1)
+					right_click_time = right_click_current_time
+				else:
+					print("Please wait, right click is on a cooldown")
 
 #==========================================#
 	# Okay Cascade
 	#for (x,y,w,h) in objs_okay:
-	#	area = w*h
-	#	minArea = cv2.getTrackbarPos("Min Area", "Settings")
-	#	if area > minArea:
-	#		# labels okay gesture
-	#		cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
-	#		cv2.putText(frame,okay_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+		#area = w*h
+		#minArea = cv2.getTrackbarPos("Min Area", "Settings")
+		#if area > minArea:
+			# labels okay gesture
+			#cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
+			#cv2.putText(frame,okay_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
 
 			# OKAY GESTURE FUNCTION GOES HERE
 			#
@@ -287,17 +287,17 @@ while(True):
 			# labels the peace gesture
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
 			cv2.putText(frame,peace_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+			if check == 1:
+				# handles the cooldown for the click
+				double_click_current_time = time.time()
+				diff = double_click_current_time - double_click_time
 
-			# handles the cooldown for the click
-			double_click_current_time = time.time()
-			diff = double_click_current_time - double_click_time
-
-			if (diff > user_cooldown):
-				print("Double click")
-				pyautogui.click(button = "left" , clicks = 2)
-				double_click_time = double_click_current_time
-			else:
-				print("Please wait, Double click is on a cooldown")
+				if (diff > user_cooldown):
+					print("Double click")
+					pyautogui.click(button = "left" , clicks = 2)
+					double_click_time = double_click_current_time
+				else:
+					print("Please wait, Double click is on a cooldown")
 
 #==========================================#
 	#Shows the frame
@@ -312,4 +312,3 @@ while(True):
 cap.release()
 cv2.destroyAllWindows()
 #==========================================#
-
