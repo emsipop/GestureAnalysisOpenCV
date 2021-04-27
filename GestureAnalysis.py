@@ -264,13 +264,13 @@ while(True):
 
 #==========================================#
 	# Okay Cascade
-	for (x,y,w,h) in objs_okay:
-		area = w*h
-		minArea = cv2.getTrackbarPos("Min Area", "Settings")
-		if area > minArea:
-			# labels okay gesture
-			cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
-			cv2.putText(frame,okay_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
+	#for (x,y,w,h) in objs_okay:
+	#	area = w*h
+	#	minArea = cv2.getTrackbarPos("Min Area", "Settings")
+	#	if area > minArea:
+	#		# labels okay gesture
+	#		cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
+	#		cv2.putText(frame,okay_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
 
 			# OKAY GESTURE FUNCTION GOES HERE
 			#
