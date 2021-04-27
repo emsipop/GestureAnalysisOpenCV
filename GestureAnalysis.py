@@ -56,6 +56,8 @@ left_click_time = 0
 right_click_time = 0 
 double_click_time = 0
 # rather than several variables this could be object properties if gestures are changed to objects later
+prev_frame = 0
+new_frame = 0
 
 # initialises the device's camera
 cap = cv2.VideoCapture(0)
@@ -294,7 +296,13 @@ while(True):
 					double_click_time = double_click_current_time
 				else:
 					print("Please wait, Double click is on a cooldown")
-
+#==========================================#
+	new_frame = time.time()
+	fps = 1/(new_frame-prev_frame)
+	prev_frame = new_frame
+	fps = int(fps)
+	fps = str(fps)
+	cv2.putText(frame, "FPS = "+fps,(1,20),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
 #==========================================#
 	#Shows the frame
 	cv2.imshow("OnlyHands Gesture Control System", frame)
