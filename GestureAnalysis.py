@@ -56,6 +56,8 @@ left_click_time = 0
 right_click_time = 0 
 double_click_time = 0
 # rather than several variables this could be object properties if gestures are changed to objects later
+
+#Used when measuring fps
 prev_frame = 0
 new_frame = 0
 
@@ -297,6 +299,7 @@ while(True):
 				else:
 					print("Please wait, Double click is on a cooldown")
 #==========================================#
+	#Creates an FPS counter for user feedback
 	new_frame = time.time()
 	fps = 1/(new_frame-prev_frame)
 	prev_frame = new_frame
