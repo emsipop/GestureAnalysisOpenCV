@@ -29,6 +29,7 @@ def create_squares():
 	cv2.rectangle(frame,(110,310),(160,410),(colour2),5)
 	cv2.rectangle(frame,(210,410),(110,360),(colour2),5)
 	
+pyautogui.FAILSAFE = False
 # ----------------- handles the import of the cascades ----------------- #
 # Imports the path to palm cascade
 path_palm = 'haarscascades/palm.xml'
