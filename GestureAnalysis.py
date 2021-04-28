@@ -91,9 +91,11 @@ cv2.createTrackbar("Min Area", "Settings",1,100000,empty)
 cv2.createTrackbar("Brightness","Settings",100,255,empty)
 cv2.createTrackbar("Sensitivity","Settings",20,100,empty)
 cv2.createTrackbar("Click Cooldown","Settings",5,10,empty)
-cv2.createTrackbar("Activate","Settings",0,1,empty)
+cv2.createTrackbar("Activate","Settings",0,1,empty) 
+cv2.createTrackbar("Show FPS","Settings",0,1,empty) 
 
 #==========================================#
+# initialises variable for error checking later
 scale_value = 400
 # creates the cascade classifiers
 cascade_palm = cv2.CascadeClassifier(path_palm)
@@ -109,6 +111,7 @@ while(True):
 	sensitivity = int(cv2.getTrackbarPos("Sensitivity","Settings"))
 	brightness = cv2.getTrackbarPos("Brightness","Settings")
 	check = cv2.getTrackbarPos("Activate","Settings")
+	fps_choice = cv2.getTrackbarPos("Show FPS", "Settings")
 	user_cooldown = cv2.getTrackbarPos("Click Cooldown","Settings") # individual cooldowns could be created per gesture if these were objects
 
 	# Updates the frames brightness
@@ -303,13 +306,13 @@ while(True):
 				else:
 					print("Please wait, Double click is on a cooldown")
 #==========================================#
-	#Creates an FPS counter for user feedback
-	new_frame = time.time()
-	fps = 1/(new_frame-prev_frame)
-	prev_frame = new_frame
-	fps = int(fps)
-	fps = str(fps)
-	cv2.putText(frame, "FPS = "+fps,(1,20),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour2),2)
+	# Creates an FPS counter for user feedback
+	# only if the user wishes to see the FPS
+	if fps_choice == 1:
+		new_frame = time.time()
+		fps = str(int(1/(new_frame-prev_frame)))
+		prev_frame = new_frame
+		cv2.putText(frame, "FPS: "+ fps,(1,20),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour2),2)
 #==========================================#
 	#Shows the frame
 	cv2.imshow("OnlyHands Gesture Control System", frame)
