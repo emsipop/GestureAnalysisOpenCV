@@ -1,5 +1,8 @@
 import numpy as np # required for cv2 library
 import pyautogui, sys, time, cv2  #Used to import support for mouse functions
+from tkinter import *
+import tkinter.font as tkFont
+from PIL import ImageTk,Image
 
 #==========================================#
 def empty(a):
@@ -316,6 +319,168 @@ while(True):
 #==========================================#
 	#Shows the frame
 	cv2.imshow("OnlyHands Gesture Control System", frame)
+
+#==========================================#
+#Sliders and Shit
+
+settings = Tk()
+settings.title('Settings')
+settings.iconbitmap('Images/logobitmap.bmp') # Need to add actual bitmap
+settings.geometry("500x750+30+30")
+menuBar = Menu(settings)
+
+def clickExit():
+    settings.quit()
+
+
+def contactusHelp():
+    contactus = Tk()
+    contactus.iconbitmap('Images/logobitmap.bmp') # Need to add actual bitmap
+    conemailLabel = Label(contactus, text= "Email: example@email.com")
+    conemailLabel.grid(row = 0, column = 0)
+    conenumLabel = Label(contactus, text= "Number: 0111111")
+    conenumLabel.grid(row = 1, column = 0)
+    contactuscloseButton = Button(contactus, text= "Close", command = contactus.destroy, cursor= "tcross")
+    contactuscloseButton.grid(row = 2, column = 0)
+
+
+def helpindexHelp():
+    helpindex = Tk()
+    helpindex.iconbitmap('Images/logobitmap.bmp') # Need to add actual bitmap
+    helptitleLable = Label(helpindex, text= "Help Index:", font = titleFont)
+    helptitleLable.grid(row = 0, column = 0)
+    scalehelpLabel = Label(helpindex, text= "The scale slider does....", font = sliderFont)
+    scalehelpLabel.grid(row = 1, column = 0)
+    neighelpLabel = Label(helpindex, text= "The Neighbours slider does....", font = sliderFont)
+    neighelpLabel.grid(row = 2, column = 0)
+    minareahelpLabel = Label(helpindex, text= "The Min. Area slider does....", font = sliderFont)
+    minareahelpLabel.grid(row = 3, column = 0)
+    brightnesshelpLabel = Label(helpindex, text= "The brightness slider does....", font = sliderFont)
+    brightnesshelpLabel.grid(row = 4, column = 0)
+    senstivityhelpLabel = Label(helpindex, text= "The senstivity slider does....", font = sliderFont)
+    senstivityhelpLabel.grid(row = 5, column = 0)
+    clickwnhelpLabel = Label(helpindex, text= "The Click Cooldown slider does.....", font = sliderFont)
+    clickwnhelpLabel.grid(row = 6, column = 0)
+    activationhelpLabel = Label(helpindex, text= "The activation checkbox does.....", font = sliderFont)
+    activationhelpLabel.grid(row = 7, column = 0)
+    helpindexcloseButton = Button(helpindex, text= "Close", command = helpindex.destroy, cursor= "tcross")
+    helpindexcloseButton.grid(row = 8, column = 1)
+
+
+def reportissueHelp():
+    reportissue = Tk()
+    reportissue.iconbitmap('Images/logobitmap.bmp') # Need to add actual bitmap
+    reporttitleLablel = Label(reportissue, text= "Report Issue:", font = titleFont)
+    reporttitleLablel.grid(row = 0, column = 0)
+    issueEntry = Entry(reportissue, bd=5, cursor = "tcross")
+    issueEntry.grid(row = 0, column = 1)
+    issueconfirmButton = Button(reportissue, text= "Enter",cursor= "tcross")
+    issueconfirmButton.grid(row = 0, column = 2)
+    reportissuecloseButton = Button(reportissue, text= "Close", command = reportissue.destroy, cursor= "tcross")
+    reportissuecloseButton.grid(row = 9, column = 9)
+    #entrysucLable = Label(reportissue, text= "Entry Successful", font = sliderFont).grid(row = 2, column = 0)
+
+
+
+def scaleConfig():
+    scale = scaleSlider
+    #placed holder
+
+def neigConfig():
+    neig = neigSlider
+    #placed holder
+
+def minareaConfig():
+    minarea = minareaSlider
+    #placed holder
+
+def brightnessConfig():
+    brigthness = brightnesSlider
+    #placed holder
+
+def senstivityConfig():
+    senstivity = senstivitySlider
+    #placed holder
+
+def clickConfig():
+    clickwn = clickwnSlider
+    #placed holder
+    
+def checkConfig():
+    check = activationCheck
+    #placed holder
+
+
+
+titleFont = tkFont.Font(family="comicsans", size=30)
+nameFont = tkFont.Font(family="comicsans", size=15)
+sliderFont = tkFont.Font(family="comicsans", size=10)
+
+ac = IntVar()
+
+slidersLabel = Label(settings, text="Sliders:", font =titleFont).grid(row=0, column=0)
+exitButton = Button(settings, text="Quit", command=clickExit, cursor= "tcross").grid(row=8, column=5)
+
+
+
+
+scaleLabel = Label(settings, text="Scale:", font =nameFont, ).grid(row=1, column =0)
+scaleSlider = Scale(settings, from_=0, to=1000,tickinterval=500, orient=HORIZONTAL, command =scaleConfig, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+scaleSlider.set(400)
+scaleSlider.grid(row=1, column=1)
+
+
+neigLabel = Label(settings, text="Neighbours:", font =nameFont).grid(row=2, column=0)
+neigSlider = Scale(settings, from_=0, to=20,tickinterval=10,orient=HORIZONTAL, command =neigConfig, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+neigSlider.set(8)
+neigSlider.grid(row=2, column=1)
+
+
+minareaLabel = Label(settings, text="Min. Area:", font =nameFont).grid(row=3, column=0)
+minareaSlider = Scale(settings, from_=0, to=100000,tickinterval=50000, orient=HORIZONTAL, command =minareaConfig, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+minareaSlider.set(1)
+minareaSlider.grid(row=3, column=1)
+
+
+brightnesLabel = Label(settings, text="Brightness:", font =nameFont).grid(row=4, column=0)
+brightnesSlider = Scale(settings, from_=0, to=255,tickinterval=127, orient=HORIZONTAL, command =brightnessConfig, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+brightnesSlider.set(100)
+brightnesSlider.grid(row=4, column=1)
+
+
+senstivityLabel = Label(settings, text="Sensitivity:", font =nameFont).grid(row=5, column=0)
+senstivitySlider = Scale(settings, from_=0, to=100,tickinterval=50, orient=HORIZONTAL, command =senstivityConfig, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+senstivitySlider.set(20)
+senstivitySlider.grid(row=5, column=1)
+
+
+clickwnLabel = Label(settings, text="Click Cooldown:", font =nameFont).grid(row=6, column=0)
+clickwnSlider = Scale(settings, from_=0, to=10,tickinterval=5, orient=HORIZONTAL, command =clickConfig, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+clickwnSlider.set(5)
+clickwnSlider.grid(row=6, column=1)
+
+
+#checkLabel = Label(settings, text="Activation:", font =nameFont).grid(row=7, column=0)
+activationCheck = Checkbutton(settings, cursor= "tcross", variable = ac, onvalue = 1, offvalue = 0, command=checkConfig, height=5, width = 20, text = "Activation", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat")
+activationCheck.grid(row = 7, column = 1)
+
+
+
+
+helpMenu = Menu(menuBar, tearoff=0)
+helpMenu.add_command(label="Help Index", command=helpindexHelp)
+helpMenu.add_command(label="Report Issue", command=reportissueHelp)
+menuBar.add_cascade(label="Help", menu=helpMenu)
+
+otherMenu = Menu(menuBar, tearoff=0)
+menuBar.add_cascade(label="Other", menu=otherMenu)
+otherMenu.add_command(label="Contact us", command=contactusHelp)
+otherMenu.add_command(label="Quit", command=clickExit)
+
+
+
+settings.config(menu=menuBar)
+mainloop()
 
 #==========================================#
 	#Used to end loop
