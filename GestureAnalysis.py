@@ -1,8 +1,11 @@
 import numpy as np # required for cv2 library
+import cv2
 import pyautogui, sys, time, cv2  #Used to import support for mouse functions
+
 from tkinter import * #required for tk library
-import tkinter.font as tkFont 
-from PIL import ImageTk,Image #used for importing images 
+import tkinter.font as tkFont
+from tkvideo import tkvideo
+from PIL import ImageTk,Image #used for importing images
 
 #==========================================#
 
@@ -63,112 +66,87 @@ def reportissueHelp():
     #entrysucLable = Label(reportissue, text= "Entry Successful", font = sliderFont).grid(row = 2, column = 0)
 
 
-
-
-def scaleConfig():
-    scale = scaleSlider
-    #placed holder
-
-def neigConfig():
-    neig = neigSlider
-    #placed holder
-
-def minareaConfig():
-    minarea = minareaSlider
-    #placed holder
-
-def brightnessConfig():
-    brightness = brightnesSlider
-    #placed holder
-
-def senstivityConfig():
-    sensitivity = senstivitySlider
-    #placed holder
-
-def clickConfig():
-    user_cooldown = clickwnSlider
-    #placed holder
-    
-def checkConfig():
-    check = activationCheck
-    #placed holder
-
-def fpsConfig():
-	fps_choice = activationCheck
-    #placed holder
-
-
 #Fonts
 titleFont = tkFont.Font(family="comicsans", size=30)
 nameFont = tkFont.Font(family="comicsans", size=15)
 sliderFont = tkFont.Font(family="comicsans", size=10)
 
+#Slider Ints
+user_cooldown = IntVar()
+sensitivity = IntVar()
+brightness = IntVar()
+minArea = IntVar()
+neig = IntVar()
+scale_value = IntVar()
+
 #Checkbox Ints
-acInt = IntVar()
-sfcInt = IntVar()
+check = IntVar()
+fps_choice = IntVar()
 
-
+#Others
 slidersLabel = Label(settings, text="Sliders:", font =titleFont).grid(row=0, column=0)
 exitButton = Button(settings, text="Quit", command=clickExit, cursor= "tcross").grid(row=11, column=2)
 startButton = Button(settings, text="Start", command=clickExit, cursor= "tcross").grid(row=11, column=0)
 
 
 
-
+#Scale Slider
 scaleLabel = Label(settings, text="Scale:", font =nameFont, ).grid(row=1, column =0)
-scaleSlider = Scale(settings, from_=0, to=1000,tickinterval=500, orient=HORIZONTAL, command =scaleConfig, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+scaleSlider = Scale(settings, from_=0, to=1000,tickinterval=500, orient=HORIZONTAL,variable = scale_value, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 scaleSlider.set(400)
 scaleSlider.grid(row=1, column=1)
 
-
+#Neigbour Slider
 neigLabel = Label(settings, text="Neighbours:", font =nameFont).grid(row=2, column=0)
-neigSlider = Scale(settings, from_=0, to=20,tickinterval=10,orient=HORIZONTAL, command =neigConfig, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+neigSlider = Scale(settings, from_=0, to=20,tickinterval=10,orient=HORIZONTAL,variable = neig, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 neigSlider.set(8)
 neigSlider.grid(row=2, column=1)
 
-
+#Minarea Slider
 minareaLabel = Label(settings, text="Min. Area:", font =nameFont).grid(row=3, column=0)
-minareaSlider = Scale(settings, from_=0, to=100000,tickinterval=50000, orient=HORIZONTAL, command =minareaConfig, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+minareaSlider = Scale(settings, from_=0, to=100000,tickinterval=50000, orient=HORIZONTAL, variable = minArea, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 minareaSlider.set(1)
 minareaSlider.grid(row=3, column=1)
 
-
+#Brightness Slider
 brightnesLabel = Label(settings, text="Brightness:", font =nameFont).grid(row=4, column=0)
-brightnesSlider = Scale(settings, from_=0, to=255,tickinterval=127, orient=HORIZONTAL, command =brightnessConfig, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
-brightnesSlider.set(100)
-brightnesSlider.grid(row=4, column=1)
+brightnessSlider = Scale(settings, from_=0, to=255,tickinterval=127, orient=HORIZONTAL, variable = brightness, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+brightnessSlider.set(100)
+brightnessSlider.grid(row=4, column=1)
 
-
+#Senstivity Slider
 senstivityLabel = Label(settings, text="Sensitivity:", font =nameFont).grid(row=5, column=0)
-senstivitySlider = Scale(settings, from_=0, to=100,tickinterval=50, orient=HORIZONTAL, command =senstivityConfig, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+senstivitySlider = Scale(settings, from_=0, to=100,tickinterval=50, orient=HORIZONTAL, variable = sensitivity, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 senstivitySlider.set(20)
 senstivitySlider.grid(row=5, column=1)
 
-
+#Click Cooldown SLider
 clickwnLabel = Label(settings, text="Click Cooldown:", font =nameFont).grid(row=6, column=0)
-clickwnSlider = Scale(settings, from_=0, to=10,tickinterval=5, orient=HORIZONTAL, command =clickConfig, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+clickwnSlider = Scale(settings, from_=0, to=10,tickinterval=5, orient=HORIZONTAL, variable = user_cooldown, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 clickwnSlider.set(5)
 clickwnSlider.grid(row=6, column=1)
 
-
-#checkLabel = Label(settings, text="Activation:", font =nameFont).grid(row=7, column=0)
-activationCheck = Checkbutton(settings, cursor= "tcross", variable = acInt, onvalue = 1, offvalue = 0, command=checkConfig, height=3, width = 20, text = "Activation", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat")
+#Activation Checkbox
+activationCheck = Checkbutton(settings, cursor= "tcross", variable = check, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Activation", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat")
 activationCheck.grid(row = 7, column = 1)
 
-showfpsCheck = Checkbutton(settings, cursor= "tcross", variable = sfcInt, onvalue = 1, offvalue = 0, command=fpsConfig, height=3, width = 20, text = "Show FPS", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat")
+
+#Show FPS Checkbox
+showfpsCheck = Checkbutton(settings, cursor= "tcross", variable = fps_choice, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Show FPS", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat")
 showfpsCheck.grid(row = 8, column = 1)
 
-
+#Help Menubar
 helpMenu = Menu(menuBar, tearoff=0)
 helpMenu.add_command(label="Help Index", command=helpindexHelp)
 helpMenu.add_command(label="Report Issue", command=reportissueHelp)
 menuBar.add_cascade(label="Help", menu=helpMenu)
 
+
+#Other Menubar
 otherMenu = Menu(menuBar, tearoff=0)
 menuBar.add_cascade(label="Other", menu=otherMenu)
 otherMenu.add_command(label="Contact us", command=contactusHelp)
 otherMenu.add_command(label="Quit", command=clickExit)
-
 
 
 settings.config(menu=menuBar)
@@ -253,19 +231,19 @@ sX = 960
 sY = 540
 # could be swapped out to win32api.GetSystemMetrics() / 2 maybe
 
-# creates a window with sliders to control object detection parameters
-cv2.namedWindow("Settings")
-cv2.resizeWindow("Settings",frame_width,frame_height+100)
+## creates a window with sliders to control object detection parameters
+# cv2.namedWindow("Settings")
+# cv2.resizeWindow("Settings",frame_width,frame_height+100)
 
- # options sliders
-cv2.createTrackbar("Scale","Settings",400,1000,empty)
-cv2.createTrackbar("Neig","Settings",8,20,empty)
-cv2.createTrackbar("Min Area", "Settings",1,100000,empty)
-cv2.createTrackbar("Brightness","Settings",100,255,empty)
-cv2.createTrackbar("Sensitivity","Settings",20,100,empty)
-cv2.createTrackbar("Click Cooldown","Settings",5,10,empty)
-cv2.createTrackbar("Activate","Settings",0,1,empty) 
-cv2.createTrackbar("Show FPS","Settings",0,1,empty) 
+##  options sliders
+# cv2.createTrackbar("Scale","Settings",400,1000,empty)
+# cv2.createTrackbar("Neig","Settings",8,20,empty)
+# cv2.createTrackbar("Min Area", "Settings",1,100000,empty)
+# cv2.createTrackbar("Brightness","Settings",100,255,empty)
+# cv2.createTrackbar("Sensitivity","Settings",20,100,empty)
+# cv2.createTrackbar("Click Cooldown","Settings",5,10,empty)
+# cv2.createTrackbar("Activate","Settings",0,1,empty) 
+# cv2.createTrackbar("Show FPS","Settings",0,1,empty) 
 
 
 #==========================================#
@@ -280,32 +258,29 @@ cascade_peace = cv2.CascadeClassifier(path_peace)
 #==========================================#
 
 # main part of the program - runs the object detections and webcam feed
-while(True):
+while(True):	
 	# Gets data from settings
-	# sensitivity = int(cv2.getTrackbarPos("Sensitivity","Settings"))
-	# brightness = cv2.getTrackbarPos("Brightness","Settings")
-	# check = cv2.getTrackbarPos("Activate","Settings")
-	# fps_choice = cv2.getTrackbarPos("Show FPS", "Settings")
-	# user_cooldown = cv2.getTrackbarPos("Click Cooldown","Settings") # individual cooldowns could be created per gesture if these were objects
-
+	#sensitivity = int(cv2.getTrackbarPos("Sensitivity","Settings"))
+	#brightness = cv2.getTrackbarPos("Brightness","Settings")
+	#check = cv2.getTrackbarPos("Check","Settings")
+	#fps_choice = cv2.getTrackbarPos("Activate", "Settings")
+	#user_cooldown = cv2.getTrackbarPos("Click Cooldwon", "Settings")
 	# Updates the frames brightness
 	cap.set(10, brightness)
-
 	# Stores the frame from webcam
 	reg, frame = cap.read()
-
 	# flips the image 
 	frame = cv2.flip(frame,1)
 	
 
-	# the opencv trackbar does not allow for a minimum value, so this if statement controls it to avoid a crash
-	if cv2.getTrackbarPos("Scale","Settings")/1000 == 0:
-		scale_value = 30 # not an optimal value but avoids a crash - if the scale is too low it blitzes the screen with false positives
-	else:
-		scale_value = 1 +(cv2.getTrackbarPos("Scale","Settings")/1000) # sets the value to what the user has chosen
+	# #the opencv trackbar does not allow for a minimum value, so this if statement controls it to avoid a crash
+	# if cv2.getTrackbarPos("Scale","Settings")/1000 == 0:
+	# 	scale_value = 30 # not an optimal value but avoids a crash - if the scale is too low it blitzes the screen with false positives
+	# else:
+	# 	scale_value = 1 +(cv2.getTrackbarPos("Scale","Settings")/1000) # sets the value to what the user has chosen
 
-    # gets neighbours value 
-	neig = cv2.getTrackbarPos("Neig", "Settings")
+    ## gets neighbours value 
+	#neig = cv2.getTrackbarPos("Neig", "Settings")
 
 	# Creates the objects for the gestures from the cascades
 	objs_palm = cascade_palm.detectMultiScale(frame,scale_value,neig)
@@ -320,7 +295,7 @@ while(True):
 	for (x,y,w,h) in objs_palm:
 		# Object detection
 		area = w*h 
-		minArea = cv2.getTrackbarPos("Min Area", "Settings") # gets the user set Area
+		#minArea = cv2.getTrackbarPos("Min Area", "Settings") # gets the user set Area
 
 		if area > minArea:
 	
@@ -406,7 +381,7 @@ while(True):
 	# Fist Cascade
 	for (x,y,w,h) in objs_fist:
 		area = w*h
-		minArea = cv2.getTrackbarPos("Min Area", "Settings") # user set min area
+		#minArea = cv2.getTrackbarPos("Min Area", "Settings") # user set min area
 		if area > minArea:
 			# labels the gesture
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(colour1),3)
@@ -427,7 +402,7 @@ while(True):
 	# Thumb Cascade
 	for (x,y,w,h) in objs_thumb:
 		area = w*h
-		minArea = cv2.getTrackbarPos("Min Area", "Settings") # user set min area
+		#minArea = cv2.getTrackbarPos("Min Area", "Settings") # user set min area
 		if area > minArea:
 			# labels the gesture			
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(colour1),3)
@@ -463,7 +438,7 @@ while(True):
 	# Peace Cascade
 	for(x,y,w,h) in objs_peace:
 		area = w*h
-		minArea = cv2.getTrackbarPos("Min Area", "Settings")
+		#minArea = cv2.getTrackbarPos("Min Area", "Settings")
 		if area > minArea:
 			# labels the peace gesture
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(colour1),3)
@@ -485,7 +460,7 @@ while(True):
 	if fps_choice == 1:
 		new_frame = time.time()
 		fps = str(int(1/(new_frame-prev_frame)))
-		prev_frame = n*ew_frame
+		prev_frame = new_frame
 		cv2.putText(frame, "FPS: "+ fps,(1,20),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour2),2)
 #==========================================#
 	#Shows the frame
