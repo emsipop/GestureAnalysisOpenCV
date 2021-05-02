@@ -9,7 +9,7 @@ from PIL import ImageTk,Image #used for importing images
 settings = Tk()
 settings.title('Settings')
 #settings.iconbitmap('Images/logobitmap.bmp') # Need to add actual bitmap
-settings.geometry("450x900+30+30")
+settings.geometry("450x750+30+30")
 menuBar = Menu(settings)
 
 def clickExit():
@@ -64,6 +64,7 @@ def reportissueHelp():
 
 
 
+
 def scaleConfig():
     scale = scaleSlider
     #placed holder
@@ -77,15 +78,15 @@ def minareaConfig():
     #placed holder
 
 def brightnessConfig():
-    brigthness = brightnesSlider
+    brightness = brightnesSlider
     #placed holder
 
 def senstivityConfig():
-    senstivity = senstivitySlider
+    sensitivity = senstivitySlider
     #placed holder
 
 def clickConfig():
-    clickwn = clickwnSlider
+    user_cooldown = clickwnSlider
     #placed holder
     
 def checkConfig():
@@ -93,16 +94,19 @@ def checkConfig():
     #placed holder
 
 def fpsConfig():
-	check = activationCheck
+	fps_choice = activationCheck
     #placed holder
 
 
-
+#Fonts
 titleFont = tkFont.Font(family="comicsans", size=30)
 nameFont = tkFont.Font(family="comicsans", size=15)
 sliderFont = tkFont.Font(family="comicsans", size=10)
 
-ac = IntVar()
+#Checkbox Ints
+acInt = IntVar()
+sfcInt = IntVar()
+
 
 slidersLabel = Label(settings, text="Sliders:", font =titleFont).grid(row=0, column=0)
 exitButton = Button(settings, text="Quit", command=clickExit, cursor= "tcross").grid(row=11, column=2)
@@ -148,10 +152,10 @@ clickwnSlider.grid(row=6, column=1)
 
 
 #checkLabel = Label(settings, text="Activation:", font =nameFont).grid(row=7, column=0)
-activationCheck = Checkbutton(settings, cursor= "tcross", variable = ac, onvalue = 1, offvalue = 0, command=checkConfig, height=3, width = 20, text = "Activation", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat")
+activationCheck = Checkbutton(settings, cursor= "tcross", variable = acInt, onvalue = 1, offvalue = 0, command=checkConfig, height=3, width = 20, text = "Activation", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat")
 activationCheck.grid(row = 7, column = 1)
 
-showfpsCheck = Checkbutton(settings, cursor= "tcross", variable = ac, onvalue = 1, offvalue = 0, command=fpsConfig, height=3, width = 20, text = "Show FPS", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat")
+showfpsCheck = Checkbutton(settings, cursor= "tcross", variable = sfcInt, onvalue = 1, offvalue = 0, command=fpsConfig, height=3, width = 20, text = "Show FPS", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat")
 showfpsCheck.grid(row = 8, column = 1)
 
 
@@ -278,11 +282,11 @@ cascade_peace = cv2.CascadeClassifier(path_peace)
 # main part of the program - runs the object detections and webcam feed
 while(True):
 	# Gets data from settings
-	sensitivity = int(cv2.getTrackbarPos("Sensitivity","Settings"))
-	brightness = cv2.getTrackbarPos("Brightness","Settings")
-	check = cv2.getTrackbarPos("Activate","Settings")
-	fps_choice = cv2.getTrackbarPos("Show FPS", "Settings")
-	user_cooldown = cv2.getTrackbarPos("Click Cooldown","Settings") # individual cooldowns could be created per gesture if these were objects
+	# sensitivity = int(cv2.getTrackbarPos("Sensitivity","Settings"))
+	# brightness = cv2.getTrackbarPos("Brightness","Settings")
+	# check = cv2.getTrackbarPos("Activate","Settings")
+	# fps_choice = cv2.getTrackbarPos("Show FPS", "Settings")
+	# user_cooldown = cv2.getTrackbarPos("Click Cooldown","Settings") # individual cooldowns could be created per gesture if these were objects
 
 	# Updates the frames brightness
 	cap.set(10, brightness)
