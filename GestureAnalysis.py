@@ -39,12 +39,17 @@ def click_cooldown(click_time, cooldown, button_type, click_num):
 		else:
 			print(button_type + "click")
 		pyautogui.click(button = button_type, clicks = click_num)
+		return click_current_time
 	else:
 		if (click_num == 2):
 			print("Please wait, double click is on a cooldown")
 		else:
 			print("Please wait, " + button_type + " click is on a cooldown")
-	return click_current_time
+		return click_time
+
+#==========================================#
+def calc_area(height, width):
+	return height * width
 
 pyautogui.FAILSAFE = False
 # ----------------- handles the import of the cascades ----------------- #
@@ -162,10 +167,9 @@ while(True):
 	# Palm Cascade
 	for (x,y,w,h) in objs_palm:
 		# Object detection
-		area = w*h 
 		minArea = cv2.getTrackbarPos("Min Area", "Settings") # gets the user set Area
 
-		if area > minArea:
+		if calc_area(h, w) > minArea:
 	
 			# store the values for the centre of the object 
 			cX = int(x+(w/2))
@@ -248,9 +252,8 @@ while(True):
 #==========================================#
 	# Fist Cascade
 	for (x,y,w,h) in objs_fist:
-		area = w*h
 		minArea = cv2.getTrackbarPos("Min Area", "Settings") # user set min area
-		if area > minArea:
+		if calc_area(h, w) > minArea:
 			# labels the gesture
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(colour1),3)
 			cv2.putText(frame,fist_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
@@ -261,9 +264,8 @@ while(True):
 #==========================================#
 	# Thumb Cascade
 	for (x,y,w,h) in objs_thumb:
-		area = w*h
 		minArea = cv2.getTrackbarPos("Min Area", "Settings") # user set min area
-		if area > minArea:
+		if calc_area(h, w) > minArea:
 			# labels the gesture			
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(colour1),3)
 			cv2.putText(frame,thumb_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
@@ -274,9 +276,8 @@ while(True):
 #==========================================#
 	# Okay Cascade
 	#for (x,y,w,h) in objs_okay:
-		#area = w*h
 		#minArea = cv2.getTrackbarPos("Min Area", "Settings")
-		#if area > minArea:
+		#if calc_area(h, w) > minArea:
 			# labels okay gesture
 			#cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
 			#cv2.putText(frame,okay_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
@@ -290,9 +291,8 @@ while(True):
 
 	# Peace Cascade
 	for(x,y,w,h) in objs_peace:
-		area = w*h
 		minArea = cv2.getTrackbarPos("Min Area", "Settings")
-		if area > minArea:
+		if calc_area(h, w) > minArea:
 			# labels the peace gesture
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(colour1),3)
 			cv2.putText(frame,peace_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
