@@ -11,7 +11,7 @@ from PIL import ImageTk,Image #used for importing images
 
 settings = Tk()
 settings.title('Settings')
-#settings.iconbitmap('Images/logobitmap.bmp') # Need to add actual bitmap
+settings.iconbitmap('logobitmap.ico')
 settings.geometry("450x750+30+30")
 menuBar = Menu(settings)
 
@@ -20,7 +20,7 @@ def clickExit():
 
 def contactusHelp():
     contactus = Tk()
-    #contactus.iconbitmap('Images/logobitmap.bmp') # Need to add actual bitmap
+    contactus.iconbitmap('logobitmap.ico') 
     conemailLabel = Label(contactus, text= "Email: example@email.com")
     conemailLabel.grid(row = 0, column = 0)
     conenumLabel = Label(contactus, text= "Number: 0111111")
@@ -31,7 +31,7 @@ def contactusHelp():
 
 def helpindexHelp():
     helpindex = Tk()
-    #helpindex.iconbitmap('Images/logobitmap.bmp') # Need to add actual bitmap
+    helpindex.iconbitmap('logobitmap.ico')
     helptitleLable = Label(helpindex, text= "Help Index:", font = titleFont)
     helptitleLable.grid(row = 0, column = 0)
     scalehelpLabel = Label(helpindex, text= "The scale slider does....", font = sliderFont)
@@ -54,7 +54,7 @@ def helpindexHelp():
 
 def reportissueHelp():
     reportissue = Tk()
-    #reportissue.iconbitmap('Images/logobitmap.bmp') # Need to add actual bitmap
+    reportissue.iconbitmap('logobitmap.ico') # Need to add actual bitmap
     reporttitleLablel = Label(reportissue, text= "Report Issue:", font = titleFont)
     reporttitleLablel.grid(row = 0, column = 0)
     issueEntry = Entry(reportissue, bd=5, cursor = "tcross")
