@@ -28,7 +28,24 @@ def create_squares():
 					#Bottom left
 	cv2.rectangle(frame,(110,310),(160,410),(colour2),5)
 	cv2.rectangle(frame,(210,410),(110,360),(colour2),5)
-	
+
+#==========================================#
+def click_cooldown(click_time, cooldown, button_type, click_num):
+	click_current_time = time.time()
+	diff = click_current_time - click_time # current duration for cooldown
+	if (diff > cooldown):
+		if (click_num == 2):
+			print("double click")
+		else:
+			print(button_type + "click")
+		pyautogui.click(button = button_type, clicks = click_num)
+	else:
+		if (click_num == 2):
+			print("Please wait, double click is on a cooldown")
+		else:
+			print("Please wait, " + button_type + " click is on a cooldown")
+	return click_current_time
+
 pyautogui.FAILSAFE = False
 # ----------------- handles the import of the cascades ----------------- #
 # Imports the path to palm cascade
@@ -239,15 +256,7 @@ while(True):
 			cv2.putText(frame,fist_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
 			if check == 1:
 				# handles the cooldown to avoid spamming inputs
-				left_click_current_time = time.time()
-				diff = left_click_current_time - left_click_time # current duration for cooldown 
-
-				if (diff > user_cooldown): 
-					print("Left click")
-					pyautogui.click(button = "left", clicks = 1)
-					left_click_time = left_click_current_time
-				else:
-					print("Please wait, left click is on a cooldown")
+				left_click_time = click_cooldown(left_click_time, user_cooldown, "left", 1)
 
 #==========================================#
 	# Thumb Cascade
@@ -260,14 +269,7 @@ while(True):
 			cv2.putText(frame,thumb_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
 			if check == 1:
 				# handles the click cooldown
-				right_click_current_time = time.time()
-				diff = right_click_current_time - right_click_time
-				if (diff > user_cooldown): 
-					print("Right click")
-					pyautogui.click(button = 'right', clicks = 1)
-					right_click_time = right_click_current_time
-				else:
-					print("Please wait, right click is on a cooldown")
+				right_click_time = click_cooldown(right_click_time, user_cooldown, "right", 1)
 
 #==========================================#
 	# Okay Cascade
@@ -296,15 +298,8 @@ while(True):
 			cv2.putText(frame,peace_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
 			if check == 1:
 				# handles the cooldown for the click
-				double_click_current_time = time.time()
-				diff = double_click_current_time - double_click_time
+				double_click_time = click_cooldown(double_click_time, user_cooldown, "left", 2)
 
-				if (diff > user_cooldown):
-					print("Double click")
-					pyautogui.click(button = "left" , clicks = 2)
-					double_click_time = double_click_current_time
-				else:
-					print("Please wait, Double click is on a cooldown")
 #==========================================#
 	# Creates an FPS counter for user feedback
 	# only if the user wishes to see the FPS
