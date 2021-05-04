@@ -30,7 +30,7 @@ def create_squares():
 	cv2.rectangle(frame,(210,410),(110,360),(colour2),5)
 
 #==========================================#
-def click_cooldown(click_time, cooldown, button_type, click_num):
+def clickCooldown(click_time, cooldown, button_type, click_num):
 	click_current_time = time.time()
 	diff = click_current_time - click_time # current duration for cooldown
 	if (diff > cooldown):
@@ -48,10 +48,11 @@ def click_cooldown(click_time, cooldown, button_type, click_num):
 		return click_time
 
 #==========================================#
-def calc_area(height, width):
+def calculateArea(height, width):
 	return height * width
 
-pyautogui.FAILSAFE = False
+pyautogui.FAILSAFE = False # disables pyautogui failsafe - allows user to move mouse to edge of screen
+
 # ----------------- handles the import of the cascades ----------------- #
 # Imports the path to palm cascade
 path_palm = 'haarscascades/palm.xml'
@@ -128,7 +129,8 @@ cascade_peace = cv2.CascadeClassifier(path_peace)
 #==========================================#
 
 # main part of the program - runs the object detections and webcam feed
-while(True):
+while cv2.getWindowProperty("Settings",0) >= 0: # while the settings window is open
+
 	# Gets data from settings
 	sensitivity = int(cv2.getTrackbarPos("Sensitivity","Settings"))
 	brightness = cv2.getTrackbarPos("Brightness","Settings")
@@ -167,9 +169,9 @@ while(True):
 	# Palm Cascade
 	for (x,y,w,h) in objs_palm:
 		# Object detection
-		minArea = cv2.getTrackbarPos("Min Area", "Settings") # gets the user set Area
+		min_area = cv2.getTrackbarPos("Min Area", "Settings") # gets the user set Area
 
-		if calc_area(h, w) > minArea:
+		if calculateArea(h, w) > min_area:
 	
 			# store the values for the centre of the object 
 			cX = int(x+(w/2))
@@ -252,32 +254,32 @@ while(True):
 #==========================================#
 	# Fist Cascade
 	for (x,y,w,h) in objs_fist:
-		minArea = cv2.getTrackbarPos("Min Area", "Settings") # user set min area
-		if calc_area(h, w) > minArea:
+		min_area = cv2.getTrackbarPos("Min Area", "Settings") # user set min area
+		if calculateArea(h, w) > min_area:
 			# labels the gesture
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(colour1),3)
 			cv2.putText(frame,fist_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
 			if check == 1:
 				# handles the cooldown to avoid spamming inputs
-				left_click_time = click_cooldown(left_click_time, user_cooldown, "left", 1)
+				left_click_time = clickCooldown(left_click_time, user_cooldown, "left", 1)
 
 #==========================================#
 	# Thumb Cascade
 	for (x,y,w,h) in objs_thumb:
-		minArea = cv2.getTrackbarPos("Min Area", "Settings") # user set min area
-		if calc_area(h, w) > minArea:
+		min_area = cv2.getTrackbarPos("Min Area", "Settings") # user set min area
+		if calculateArea(h, w) > min_area:
 			# labels the gesture			
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(colour1),3)
 			cv2.putText(frame,thumb_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
 			if check == 1:
 				# handles the click cooldown
-				right_click_time = click_cooldown(right_click_time, user_cooldown, "right", 1)
+				right_click_time = clickCooldown(right_click_time, user_cooldown, "right", 1)
 
 #==========================================#
 	# Okay Cascade
 	#for (x,y,w,h) in objs_okay:
-		#minArea = cv2.getTrackbarPos("Min Area", "Settings")
-		#if calc_area(h, w) > minArea:
+		#min_area = cv2.getTrackbarPos("Min Area", "Settings")
+		#if calculateArea(h, w) > min_area:
 			# labels okay gesture
 			#cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
 			#cv2.putText(frame,okay_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
@@ -291,14 +293,14 @@ while(True):
 
 	# Peace Cascade
 	for(x,y,w,h) in objs_peace:
-		minArea = cv2.getTrackbarPos("Min Area", "Settings")
-		if calc_area(h, w) > minArea:
+		min_area = cv2.getTrackbarPos("Min Area", "Settings")
+		if calculateArea(h, w) > min_area:
 			# labels the peace gesture
 			cv2.rectangle(frame,(x,y),(x+w,y+h),(colour1),3)
 			cv2.putText(frame,peace_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
 			if check == 1:
 				# handles the cooldown for the click
-				double_click_time = click_cooldown(double_click_time, user_cooldown, "left", 2)
+				double_click_time = clickCooldown(double_click_time, user_cooldown, "left", 2)
 
 #==========================================#
 	# Creates an FPS counter for user feedback
@@ -317,6 +319,7 @@ while(True):
 	ch = cv2.waitKey(1)
 	if ch & 0xFF == 27:
 		break
+
 #==========================================#
 cap.release()
 cv2.destroyAllWindows()
