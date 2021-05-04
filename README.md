@@ -13,7 +13,7 @@ The program makes use of Haar cascades in OpenCV to recognise the user's hand an
 
 In order to create the cascades, positives and negatives were taken using [this python script](https://github.com/JacobMarshall0/OpenCV-Positive-Negative-Capturer).
 
-These images were then processed using the tools provided by OpenCV referenced [here](https://docs.opencv.org/4.2.0/dc/d88/tutorial_traincascade.html)
+These images were then processed using the tools provided by OpenCV referenced [here](https://docs.opencv.org/4.2.0/dc/d88/tutorial_traincascade.html).
 
 
 
