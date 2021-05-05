@@ -8,6 +8,9 @@ The mouse functionality and their respective gestures include:
 * Right Click - Thumbs up
 * Double Left Click - Peace
 
+The program includes a settings window with several parameters, for the best results reduce the scale value and slightly increase brightness. Decreasing the neighbours slider can improve recognition but also causes more false positives. 
+Once you are happy with the hand detection drag the activation slider to 1 and the mouse controls will be unlocked.
+
 ## Explanation
 The program makes use of Haar cascades in OpenCV to recognise the user's hand and PyAutoGUI to handle the mouse functions.
 
@@ -15,6 +18,10 @@ In order to create the cascades, positives and negatives were taken using [this 
 
 These images were then processed using the tools provided by OpenCV referenced [here](https://docs.opencv.org/4.2.0/dc/d88/tutorial_traincascade.html).
 
+## Feedback
 
+If you wish to improve the code or leave a suggestion, please use the [issues tab](https://github.com/emsipop/GestureAnalysisOpenCV/issues) on this repository.
+
+Please use as much detail as possible for bug reports or suggestions.
 
 
