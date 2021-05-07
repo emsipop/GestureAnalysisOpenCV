@@ -5,7 +5,7 @@ import pyautogui, sys, time, cv2  #Used to import support for mouse functions
 def empty(a):
     pass
 #==========================================#
-def create_squares():
+def createSquares():
 		#Creates rectangles that act as a guide
 
 	cv2.rectangle(frame,(270,70),(370,170),(255,255,0),5)
@@ -182,7 +182,7 @@ while cv2.getWindowProperty("Settings",0) >= 0: # while the settings window is o
 			cv2.putText(frame,palm_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
 			cv2.circle(frame, (cX, cY), 5, (colour2), -1) # centre circle
 			if check == 1:
-				create_squares() # draws the squares for cursor control
+				createSquares() # draws the squares for cursor control
 
 				# big ass if statement for each direction the mouse can move - maybe we should clean it up
 				if 270 < cX < 370 and 170 > cY > 70:
