@@ -9,68 +9,71 @@ from PIL import ImageTk,Image #used for importing images
 
 #==========================================#
 #Settings
-settings = Tk()
-settings.title('Settings')
-settings.iconbitmap('bitmaplogo.ico')
-settings.config(bg="#F1D93E")
-settings.geometry("450x780+30+30")
-settings.resizable(False,False)
-menuBar = Menu(settings)
-settings.config(menu=menuBar)
-#video.geometry("450x780+30+30")  #Get size
+video = Tk()  #Makes main window
+video.title("Only hands")
+#video.iconbitmap('bitmaplogo.ico')
+video.config(bg="#F1D93E")
+video.geometry("450x780+30+30")
+video.resizable(False,False)
+
+imageFrame = Frame(video, width = 700, height = 600)
+imageFrame.grid(row=0, column =0, padx=10, pady =10)
+
+lmain = Label(imageFrame)
+lmain.grid(row=0, column=0)
+
+
 def clickExit():
 	settings.destoy()
 	video.destoy()
-	#if cap.isOpened():
-		#cap.release()
-	#cv2.destroyAllWindows()
-
-def contactusHelp():
-    contactus = Tk()
-    contactus.iconbitmap('bitmaplogo.ico') 
-    conemailLabel = Label(contactus, text= "Email: example@email.com")
-    conemailLabel.grid(row = 0, column = 0)
-    conenumLabel = Label(contactus, text= "Number: 011111 1")
-    conenumLabel.grid(row = 1, column = 0)
-    contactuscloseButton = Button(contactus, text= "Close", command = contactus.destroy, cursor= "tcross")
-    contactuscloseButton.grid(row = 2, column = 0)
 
 
-def helpindexHelp():
-    helpindex = Tk()
-    helpindex.iconbitmap('bitmaplogo.ico')
-    helptitleLable = Label(helpindex, text= "Help Index:", font = titleFont)
-    helptitleLable.grid(row = 0, column = 0)
-    scalehelpLabel = Label(helpindex, text= "The scale slider does....", font = sliderFont)
-    scalehelpLabel.grid(row = 1, column = 0)
-    neighelpLabel = Label(helpindex, text= "The Neighbours slider does....", font = sliderFont)
-    neighelpLabel.grid(row = 2, column = 0)
-    minareahelpLabel = Label(helpindex, text= "The Min. Area slider does....", font = sliderFont)
-    minareahelpLabel.grid(row = 3, column = 0)
-    brightnesshelpLabel = Label(helpindex, text= "The brightness slider does....", font = sliderFont)
-    brightnesshelpLabel.grid(row = 4, column = 0)
-    senstivityhelpLabel = Label(helpindex, text= "The senstivity slider does....", font = sliderFont)
-    senstivityhelpLabel.grid(row = 5, column = 0)
-    clickwnhelpLabel = Label(helpindex, text= "The Click Cooldown slider does.....", font = sliderFont)
-    clickwnhelpLabel.grid(row = 6, column = 0)
-    activationhelpLabel = Label(helpindex, text= "The activation checkbox does.....", font = sliderFont)
-    activationhelpLabel.grid(row = 7, column = 0)
-    helpindexcloseButton = Button(helpindex, text= "Close", command = helpindex.destroy, cursor= "tcross")
-    helpindexcloseButton.grid(row = 8, column = 1)
+#def contactusHelp():
+#    contactus = Tk()
+#    contactus.iconbitmap('bitmaplogo.ico') 
+#    conemailLabel = Label(contactus, text= "Email: example@email.com")
+#    conemailLabel.grid(row = 0, column = 0)
+#    conenumLabel = Label(contactus, text= "Number: 011111 1")
+#    conenumLabel.grid(row = 1, column = 0)
+#    contactuscloseButton = Button(contactus, text= "Close", command = contactus.destroy, cursor= "tcross")
+#    contactuscloseButton.grid(row = 2, column = 0)
 
 
-def reportissueHelp():
-    reportissue = Tk()
-    reportissue.iconbitmap('bitmaplogo.ico') # Need to add actual bitmap
-    reporttitleLablel = Label(reportissue, text= "Report Issue:", font = titleFont)
-    reporttitleLablel.grid(row = 0, column = 0)
-    issueEntry = Entry(reportissue, bd=5, cursor = "tcross")
-    issueEntry.grid(row = 0, column = 1)
-    issueconfirmButton = Button(reportissue, text= "Enter",cursor= "tcross")
-    issueconfirmButton.grid(row = 0, column = 2)
-    reportissuecloseButton = Button(reportissue, text= "Close", command = reportissue.destroy, cursor= "tcross")
-    reportissuecloseButton.grid(row = 9, column = 9)
-    #entrysucLable = Label(reportissue, text= "Entry Successful", font = sliderFont).grid(row = 2, column = 0)
+#def helpindexHelp():
+#    helpindex = Tk()
+#    helpindex.iconbitmap('bitmaplogo.ico')
+#    helptitleLable = Label(helpindex, text= "Help Index:", font = titleFont)
+#    helptitleLable.grid(row = 0, column = 0)
+#    scalehelpLabel = Label(helpindex, text= "The scale slider does....", font = sliderFont)
+#    scalehelpLabel.grid(row = 1, column = 0)
+#    neighelpLabel = Label(helpindex, text= "The Neighbours slider does....", font = sliderFont)
+#    neighelpLabel.grid(row = 2, column = 0)
+#    minareahelpLabel = Label(helpindex, text= "The Min. Area slider does....", font = sliderFont)
+#    minareahelpLabel.grid(row = 3, column = 0)
+#    brightnesshelpLabel = Label(helpindex, text= "The brightness slider does....", font = sliderFont)
+#    brightnesshelpLabel.grid(row = 4, column = 0)
+#    senstivityhelpLabel = Label(helpindex, text= "The senstivity slider does....", font = sliderFont)
+#    senstivityhelpLabel.grid(row = 5, column = 0)
+#    clickwnhelpLabel = Label(helpindex, text= "The Click Cooldown slider does.....", font = sliderFont)
+#    clickwnhelpLabel.grid(row = 6, column = 0)
+#    activationhelpLabel = Label(helpindex, text= "The activation checkbox does.....", font = sliderFont)
+#    activationhelpLabel.grid(row = 7, column = 0)
+#    helpindexcloseButton = Button(helpindex, text= "Close", command = helpindex.destroy, cursor= "tcross")
+#    helpindexcloseButton.grid(row = 8, column = 1)
+
+
+#def reportissueHelp():
+#    reportissue = Tk()
+#    reportissue.iconbitmap('bitmaplogo.ico') # Need to add actual bitmap
+#    reporttitleLablel = Label(reportissue, text= "Report Issue:", font = titleFont)
+#    reporttitleLablel.grid(row = 0, column = 0)
+#    issueEntry = Entry(reportissue, bd=5, cursor = "tcross")
+#    issueEntry.grid(row = 0, column = 1)
+#    issueconfirmButton = Button(reportissue, text= "Enter",cursor= "tcross")
+#    issueconfirmButton.grid(row = 0, column = 2)
+#    reportissuecloseButton = Button(reportissue, text= "Close", command = reportissue.destroy, cursor= "tcross")
+#    reportissuecloseButton.grid(row = 9, column = 9)
+#    #entrysucLable = Label(reportissue, text= "Entry Successful", font = sliderFont).grid(row = 2, column = 0)
 
 
 #Fonts
@@ -88,84 +91,71 @@ scale_value_Intvar = IntVar()
 check_Intvar = IntVar()
 fps_choice_Intvar = IntVar()
 
-#Others
-slidersLabel = Label(settings, text="Sliders:", font =titleFont,bg="#F1D93E").grid(row=0, column=0)
-exitButton = Button(settings, text="Quit", command=clickExit, cursor= "tcross",bg="lightgray").grid(row=11, column=2)
+
+#slidersLabel = Label(video, text="Sliders:", font =titleFont,bg="#F1D93E").grid(row=0, column=0)
+#exitButton = Button(video, text="Quit", command=clickExit, cursor= "tcross",bg="lightgray").grid(row=11, column=2)
 #startButton = Button(settings, text="Start", command=clickExit, cursor= "tcross").grid(row=11, column=0)
 
 
 
 #Scale Slider
-scaleLabel = Label(settings, text="Scale:", font =nameFont,bg="#F1D93E" ).grid(row=1, column =0)
-scaleSlider = Scale(settings, from_=0, to=1000,tickinterval=500, orient=HORIZONTAL,variable = scale_value_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+scaleLabel = Label(video, text="Scale:", font =nameFont,bg="#F1D93E" ).grid(row=1, column =0)
+scaleSlider = Scale(video, from_=0, to=1000,tickinterval=500, orient=HORIZONTAL,variable = scale_value_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 scaleSlider.set(400)
 scaleSlider.grid(row=1, column=1)
 
 #Neigbour Slider
-neigLabel = Label(settings, text="Neighbours:", font =nameFont,bg="#F1D93E").grid(row=2, column=0)
-neigSlider = Scale(settings, from_=0, to=20,tickinterval=10,orient=HORIZONTAL,variable = neig_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+neigLabel = Label(video, text="Neighbours:", font =nameFont,bg="#F1D93E").grid(row=2, column=0)
+neigSlider = Scale(video, from_=0, to=20,tickinterval=10,orient=HORIZONTAL,variable = neig_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 neigSlider.set(8)
 neigSlider.grid(row=2, column=1)
 
 #Minarea Slider
-minareaLabel = Label(settings, text="Min. Area:", font =nameFont,bg="#F1D93E").grid(row=3, column=0)
-minareaSlider = Scale(settings, from_=0, to=100000,tickinterval=50000, orient=HORIZONTAL, variable = minArea_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+minareaLabel = Label(video, text="Min. Area:", font =nameFont,bg="#F1D93E").grid(row=3, column=0)
+minareaSlider = Scale(video, from_=0, to=100000,tickinterval=50000, orient=HORIZONTAL, variable = minArea_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 minareaSlider.set(1)
 minareaSlider.grid(row=3, column=1)
 
 #Brightness Slider
-brightnesLabel = Label(settings, text="Brightness:", font =nameFont,bg="#F1D93E").grid(row=4, column=0)
-brightnessSlider = Scale(settings, from_=0, to=255,tickinterval=127, orient=HORIZONTAL, variable = brightness_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+brightnesLabel = Label(video, text="Brightness:", font =nameFont,bg="#F1D93E").grid(row=4, column=0)
+brightnessSlider = Scale(video, from_=0, to=255,tickinterval=127, orient=HORIZONTAL, variable = brightness_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 brightnessSlider.set(100)
 brightnessSlider.grid(row=4, column=1)
 
 #Senstivity Slider
-senstivityLabel = Label(settings, text="Sensitivity:", font =nameFont,bg="#F1D93E").grid(row=5, column=0)
-senstivitySlider = Scale(settings, from_=0, to=100,tickinterval=50, orient=HORIZONTAL, variable = sensitivity_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+senstivityLabel = Label(video, text="Sensitivity:", font =nameFont,bg="#F1D93E").grid(row=5, column=0)
+senstivitySlider = Scale(video, from_=0, to=100,tickinterval=50, orient=HORIZONTAL, variable = sensitivity_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 senstivitySlider.set(20)
 senstivitySlider.grid(row=5, column=1)
 
 #Click Cooldown SLider
-clickwnLabel = Label(settings, text="Click Cooldown:", font =nameFont,bg="#F1D93E").grid(row=6, column=0)
-clickwnSlider = Scale(settings, from_=0, to=10,tickinterval=5, orient=HORIZONTAL, variable = user_cooldown_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+clickwnLabel = Label(video, text="Click Cooldown:", font =nameFont,bg="#F1D93E").grid(row=6, column=0)
+clickwnSlider = Scale(video, from_=0, to=10,tickinterval=5, orient=HORIZONTAL, variable = user_cooldown_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 clickwnSlider.set(5)
 clickwnSlider.grid(row=6, column=1)
 
 #Activation Checkbox
-activationCheck = Checkbutton(settings, cursor= "tcross", variable = check_Intvar, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Activation", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat",bg="#F1D93E",activebackground="#F1D93E")
+activationCheck = Checkbutton(video, cursor= "tcross", variable = check_Intvar, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Activation", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat",bg="#F1D93E",activebackground="#F1D93E")
 activationCheck.grid(row = 7, column = 1)
 
 
 #Show FPS Checkbox
-showfpsCheck = Checkbutton(settings, cursor= "tcross", variable = fps_choice_Intvar, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Show FPS", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat",bg="#F1D93E",activebackground="#F1D93E")
+showfpsCheck = Checkbutton(video, cursor= "tcross", variable = fps_choice_Intvar, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Show FPS", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat",bg="#F1D93E",activebackground="#F1D93E")
 showfpsCheck.grid(row = 8, column = 1)
 
-#Help Menubar for settings
-helpMenu = Menu(menuBar, tearoff=0)
-helpMenu.add_command(label="Help Index", command=helpindexHelp)
-helpMenu.add_command(label="Report Issue", command=reportissueHelp)
-menuBar.add_cascade(label="Help", menu=helpMenu)
+##Help Menubar for settings
+#helpMenu = Menu(menuBar, tearoff=0)
+#helpMenu.add_command(label="Help Index", command=helpindexHelp)
+#helpMenu.add_command(label="Report Issue", command=reportissueHelp)
+#menuBar.add_cascade(label="Help", menu=helpMenu)
 
-#Other Menubar for settings
-otherMenu = Menu(menuBar, tearoff=0)
-menuBar.add_cascade(label="Other", menu=otherMenu)
-otherMenu.add_command(label="Contact us", command=contactusHelp)
-otherMenu.add_command(label="Quit", command=clickExit)
+##Other Menubar for settings
+#otherMenu = Menu(menuBar, tearoff=0)
+#menuBar.add_cascade(label="Other", menu=otherMenu)
+#otherMenu.add_command(label="Contact us", command=contactusHelp)
+#otherMenu.add_command(label="Quit", command=clickExit)
 
 #==========================================#
-
-#Video
-video = Tk()
-video.title('Video')
-video.iconbitmap('bitmaplogo.ico')
-video.config(bg="#F1D93E")
-video.resizable(False,False)
-#Videoframe
-videoFrame = Frame(video, width = 700, height = 600)
-videoFrame.grid(row=0, column =0, padx=10, pady =10)
-
-
-
 
 
 #mainloop() #used for testing
@@ -247,21 +237,6 @@ frame_height_centre = round(frame_height/2)
 # stores the x and y in the middle of a 1080 x 1920p monitor
 sX = 960
 sY = 540
-# could be swapped out to win32api.GetSystemMetrics() / 2 maybe
-
-## creates a window with sliders to control object detection parameters
-# cv2.namedWindow("Settings")
-# cv2.resizeWindow("Settings",frame_width,frame_height+100)
-
-##  options sliders
-# cv2.createTrackbar("Scale","Settings",400,1000,empty)
-# cv2.createTrackbar("Neig","Settings",8,20,empty)
-# cv2.createTrackbar("Min Area", "Settings",1,100000,empty)
-# cv2.createTrackbar("Brightness","Settings",100,255,empty)
-# cv2.createTrackbar("Sensitivity","Settings",20,100,empty)
-# cv2.createTrackbar("Click Cooldown","Settings",5,10,empty)
-# cv2.createTrackbar("Activate","Settings",0,1,empty) 
-# cv2.createTrackbar("Show FPS","Settings",0,1,empty) 
 
 
 #==========================================#
@@ -276,37 +251,25 @@ cascade_peace = cv2.CascadeClassifier(path_peace)
 #==========================================#
 
 # main part of the program - runs the object detections and webcam feed
-while(True):	
-	# Gets data from settings
-	#sensitivity = int(cv2.getTrackbarPos("Sensitivity","Settings"))
-	#brightness = cv2.getTrackbarPos("Brightness","Settings")
-	#check = cv2.getTrackbarPos("Check","Settings")
-	#fps_choice = cv2.getTrackbarPos("Activate", "Settings")
-	#user_cooldown = cv2.getTrackbarPos("Click Cooldwon", "Settings")
+def show_frame():	
+
 	user_cooldown = user_cooldown_Intvar.get()
 	sensitivity = sensitivity_Intvar.get()
 	brightness = brightness_Intvar.get()
 	minArea = minArea_Intvar.get()
 	neig = neig_Intvar.get()
-	scale_value = scale_value_Intvar.get()
 	check = check_Intvar.get()
 	fps_choice = fps_choice_Intvar.get()
+	if scale_value_Intvar.get()/1000 == 0:
+		scale_value = 30 # not an optimal value but avoids a crash - if the scale is too low it blitzes the screen with false positives
+	else:
+		scale_value = 1 +scale_value_Intvar.get()/1000 # sets the value to what the user has chosen
 	# Updates the frames brightness
 	cap.set(10, brightness)
 	# Stores the frame from webcam
 	reg, frame = cap.read()
 	# flips the image 
 	frame = cv2.flip(frame,1)
-	
-
-	# #the opencv trackbar does not allow for a minimum value, so this if statement controls it to avoid a crash
-	# if cv2.getTrackbarPos("Scale","Settings")/1000 == 0:
-	# 	scale_value = 30 # not an optimal value but avoids a crash - if the scale is too low it blitzes the screen with false positives
-	# else:
-	# 	scale_value = 1 +(cv2.getTrackbarPos("Scale","Settings")/1000) # sets the value to what the user has chosen
-
-    ## gets neighbours value 
-	#neig = cv2.getTrackbarPos("Neig", "Settings")
 
 	# Creates the objects for the gestures from the cascades
 	objs_palm = cascade_palm.detectMultiScale(frame,scale_value,neig)
@@ -490,16 +453,19 @@ while(True):
 		cv2.putText(frame, "FPS: "+ fps,(1,20),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour2),2)
 #==========================================#
 	#Shows the frame
-	cv2.imshow("OnlyHands Gesture Control System", frame)
+	frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
+	img = Image.fromarray(frame)
+	imgtk = ImageTk.PhotoImage(image=img)
+	lmain.imgtk = imgtk
+	lmain.configure(image=imgtk)
+	lmain.after(10, show_frame) 
 
 #==========================================#
-	#Used to end loop
-	ch = cv2.waitKey(1)
-	if ch & 0xFF == 27:
-		break
+
 #==========================================#
-if cap.isOpened():
-	cap.release()
-cv2.destroyAllWindows()
-mainloop()
+#sliderFrame = Frame(video, width=600, height=100)
+#sliderFrame.grid(row = 9, column=1, padx=10, pady=2)
+
+show_frame()  #Display 2
+video.mainloop()  #Starts GUI
 #==========================================#
