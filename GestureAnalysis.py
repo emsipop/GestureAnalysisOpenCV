@@ -18,49 +18,53 @@ video.resizable(False,False)
 
 imageFrame = Frame(video, width = 600, height = 400)
 imageFrame.place(x=0,y=0)
-#.grid(row=0, column =0, padx=10, pady =10)
 
 lmain = Label(imageFrame)
 lmain.place(x=0,y=0)
-#.grid(row=0, column=0)
-
 
 def clickExit():
-	video.destoy()
+	video.quit()
+
+def contactusHelp():
+   contactus = Tk()
+   contactus.config(bg="#F1D93E")
+   contactus.geometry("160x75+30+30")
+   contactus.resizable(False,False)
+   contactus.iconbitmap('bitmaplogo.ico') 
+   conemailLabel = Label(contactus, text= "Email: help@onlyhands.com",bg="#F1D93E")
+   conemailLabel.grid(row = 0, column = 0)
+   conenumLabel = Label(contactus, text= "Number: 08081 960082",bg="#F1D93E")
+   conenumLabel.grid(row = 1, column = 0)
+   contactuscloseButton = Button(contactus, text= "Close", command = contactus.destroy, cursor= "tcross",bg="#F1D93E", activebackground = "#F1D93E", activeforeground = "white")
+   contactuscloseButton.grid(row = 2, column = 0)
 
 
-# def contactusHelp():
-#    contactus = Tk()
-#    contactus.iconbitmap('bitmaplogo.ico') 
-#    conemailLabel = Label(contactus, text= "Email: example@email.com")
-#    conemailLabel.grid(row = 0, column = 0)
-#    conenumLabel = Label(contactus, text= "Number: 011111 1")
-#    conenumLabel.grid(row = 1, column = 0)
-#    contactuscloseButton = Button(contactus, text= "Close", command = contactus.destroy, cursor= "tcross")
-#    contactuscloseButton.grid(row = 2, column = 0)
-
-
-# def helpindexHelp():
-#    helpindex = Tk()
-#    helpindex.iconbitmap('bitmaplogo.ico')
-#    helptitleLable = Label(helpindex, text= "Help Index:", font = titleFont)
-#    helptitleLable.grid(row = 0, column = 0)
-#    scalehelpLabel = Label(helpindex, text= "The scale slider does....", font = sliderFont)
-#    scalehelpLabel.grid(row = 1, column = 0)
-#    neighelpLabel = Label(helpindex, text= "The Neighbours slider does....", font = sliderFont)
-#    neighelpLabel.grid(row = 2, column = 0)
-#    minareahelpLabel = Label(helpindex, text= "The Min. Area slider does....", font = sliderFont)
-#    minareahelpLabel.grid(row = 3, column = 0)
-#    brightnesshelpLabel = Label(helpindex, text= "The brightness slider does....", font = sliderFont)
-#    brightnesshelpLabel.grid(row = 4, column = 0)
-#    senstivityhelpLabel = Label(helpindex, text= "The senstivity slider does....", font = sliderFont)
-#    senstivityhelpLabel.grid(row = 5, column = 0)
-#    clickwnhelpLabel = Label(helpindex, text= "The Click Cooldown slider does.....", font = sliderFont)
-#    clickwnhelpLabel.grid(row = 6, column = 0)
-#    activationhelpLabel = Label(helpindex, text= "The activation checkbox does.....", font = sliderFont)
-#    activationhelpLabel.grid(row = 7, column = 0)
-#    helpindexcloseButton = Button(helpindex, text= "Close", command = helpindex.destroy, cursor= "tcross")
-#    helpindexcloseButton.grid(row = 8, column = 1)
+def helpindexHelp():
+   helpindex = Tk()
+   helpindex.iconbitmap('bitmaplogo.ico')
+   helpindex.config(bg="#F1D93E")
+   helpindex.geometry("500x500+30+30")
+   helpindex.resizable(False,False)
+   helptitleLable = Label(helpindex, text= "Help Index:", font = titleFont, bg="#F1D93E")
+   helptitleLable.grid(row = 0, column = 0)
+   scalehelpLabel = Label(helpindex, text= "The scale slider does....", font = sliderFont, bg="#F1D93E")
+   scalehelpLabel.grid(row = 1, column = 0)
+   neighelpLabel = Label(helpindex, text= "The Neighbours slider does....", font = sliderFont, bg="#F1D93E")
+   neighelpLabel.grid(row = 2, column = 0)
+   minareahelpLabel = Label(helpindex, text= "The Min. Area slider does....", font = sliderFont, bg="#F1D93E")
+   minareahelpLabel.grid(row = 3, column = 0)
+   brightnesshelpLabel = Label(helpindex, text= "The brightness slider does....", font = sliderFont, bg="#F1D93E")
+   brightnesshelpLabel.grid(row = 4, column = 0)
+   senstivityhelpLabel = Label(helpindex, text= "The senstivity slider does....", font = sliderFont, bg="#F1D93E")
+   senstivityhelpLabel.grid(row = 5, column = 0)
+   clickwnhelpLabel = Label(helpindex, text= "The Click Cooldown slider does.....", font = sliderFont, bg="#F1D93E")
+   clickwnhelpLabel.grid(row = 6, column = 0)
+   activationhelpLabel = Label(helpindex, text= "The activation checkbox does.....", font = sliderFont, bg="#F1D93E")
+   activationhelpLabel.grid(row = 7, column = 0)
+   showfpshelpLabel = Label(helpindex, text= "The Show FPS checkbox does.....", font = sliderFont, bg="#F1D93E")
+   showfpshelpLabel.grid(row = 8, column = 0)
+   helpindexcloseButton = Button(helpindex, text= "Close", command = helpindex.destroy, cursor= "tcross", bg="#F1D93E", activebackground = "#F1D93E", activeforeground = "white")
+   helpindexcloseButton.grid(row = 9, column = 1)
 
 
 # def reportissueHelp():
@@ -81,6 +85,7 @@ def clickExit():
 titleFont = tkFont.Font(family="comicsans", size=30)
 nameFont = tkFont.Font(family="comicsans", size=15)
 sliderFont = tkFont.Font(family="comicsans", size=10)
+quitFont = tkFont.Font(family="comicsans", size=40)
 
 #Intvars
 user_cooldown_Intvar = IntVar()
@@ -94,86 +99,71 @@ fps_choice_Intvar = IntVar()
 
 
 slidersLabel = Label(video, text="Sliders:", font =titleFont,bg="#F1D93E").place(x=0,y=400)
-#exitButton = Button(video, text="Quit", command=clickExit, cursor= "tcross",bg="#F1D93E").grid(row=5, column=4)
-#startButton = Button(settings, text="Start", command=clickExit, cursor= "tcross").grid(row=11, column=0)
+quitButton = Button(video, text="  Quit  ", command=clickExit, cursor= "tcross",bg="#F1D93E", activebackground = "#F1D93E", activeforeground = "white", font=quitFont).place(x=625,y=100)
 
 
 
 #Scale Slider
 scaleLabel = Label(video, text="Scale:", font =nameFont,bg="#F1D93E" ).place(x=50,y=475)
-#.grid(row=1, column =0)
 scaleSlider = Scale(video, from_=0, to=1000,tickinterval=500, orient=HORIZONTAL,variable = scale_value_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 scaleSlider.set(400)
 scaleSlider.place(x=120,y=475)
-#.grid(row=1, column=1)
 
 #Neigbour Slider
 neigLabel = Label(video, text="Neighbours:", font =nameFont,bg="#F1D93E").place(x=450,y=475)
-#.grid(row=1, column=2)
 neigSlider = Scale(video, from_=0, to=20,tickinterval=10,orient=HORIZONTAL,variable = neig_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 neigSlider.set(8)
 neigSlider.place(x=560,y=475)
-#.grid(row=1, column=3)
 
 #Minarea Slider
 minareaLabel = Label(video, text="Min. Area:", font =nameFont,bg="#F1D93E").place(x=15,y=600)
-#.grid(row=2, column=0)
 minareaSlider = Scale(video, from_=0, to=100000,tickinterval=50000, orient=HORIZONTAL, variable = minArea_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 minareaSlider.set(1)
 minareaSlider.place(x=120,y=600)
-#.grid(row=2, column=1)
 
 #Brightness Slider
 brightnesLabel = Label(video, text="Brightness:", font =nameFont,bg="#F1D93E").place(x=450,y=600)
-#.grid(row=2, column=2)
 brightnessSlider = Scale(video, from_=0, to=255,tickinterval=127, orient=HORIZONTAL, variable = brightness_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 brightnessSlider.set(100)
 brightnessSlider.place(x=560,y=600)
-#.grid(row=2, column=3)
 
 #Senstivity Slider
 senstivityLabel = Label(video, text="Sensitivity:", font =nameFont,bg="#F1D93E").place(x=15,y=725)
-#.grid(row=3, column=0)
 senstivitySlider = Scale(video, from_=0, to=100,tickinterval=50, orient=HORIZONTAL, variable = sensitivity_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 senstivitySlider.set(20)
 senstivitySlider.place(x=120,y=725)
-#.grid(row=3, column=1)
 
 #Click Cooldown SLider
 clickwnLabel = Label(video, text="Click Cooldown:", font =nameFont,bg="#F1D93E").place(x=410,y=725)
-#.grid(row=3, column=2)
 clickwnSlider = Scale(video, from_=0, to=10,tickinterval=5, orient=HORIZONTAL, variable = user_cooldown_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 clickwnSlider.set(5)
 clickwnSlider.place(x=560,y=725)
-#.grid(row=3, column=3)
 
 #Activation Checkbox
 activationCheck = Checkbutton(video, cursor= "tcross", variable = check_Intvar, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Activation", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat",bg="#F1D93E",activebackground="#F1D93E")
 activationCheck.place(x=100,y=820)
-#.grid(row = 4, column = 1)
 
 
 #Show FPS Checkbox
 showfpsCheck = Checkbutton(video, cursor= "tcross", variable = fps_choice_Intvar, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Show FPS", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat",bg="#F1D93E",activebackground="#F1D93E")
 showfpsCheck.place(x=600,y=820)
-#.grid(row = 4, column = 2)
-
-##Help Menubar for settings
-# helpMenu = Menu(menuBar, tearoff=0)
-# helpMenu.add_command(label="Help Index", command=helpindexHelp)
-# helpMenu.add_command(label="Report Issue", command=reportissueHelp)
-# menuBar.add_cascade(label="Help", menu=helpMenu)
-
-##Other Menubar for settings
-# otherMenu = Menu(menuBar, tearoff=0)
-# menuBar.add_cascade(label="Other", menu=otherMenu)
-# otherMenu.add_command(label="Contact us", command=contactusHelp)
-# otherMenu.add_command(label="Quit", command=clickExit)
-
-#==========================================#
 
 
-#mainloop() #used for testing
+#Help Menubar for settings
+menuBar = Menu(video)
+
+helpMenu = Menu(menuBar, tearoff=0)
+helpMenu.add_command(label="Help Index", command=helpindexHelp)
+#helpMenu.add_command(label="Report Issue", command=reportissueHelp)
+menuBar.add_cascade(label="Help", menu=helpMenu)
+
+#Other Menubar for settings
+otherMenu = Menu(menuBar, tearoff=0)
+menuBar.add_cascade(label="Other", menu=otherMenu)
+otherMenu.add_command(label="Contact us", command=contactusHelp)
+otherMenu.add_command(label="Quit", command=clickExit)
+
+video.config(menu=menuBar)
 
 #==========================================#
 def empty(a):
