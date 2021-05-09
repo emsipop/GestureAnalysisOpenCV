@@ -11,24 +11,25 @@ from PIL import ImageTk,Image #used for importing images
 #Settings
 video = Tk()  #Makes main window
 video.title("Only hands")
-#video.iconbitmap('bitmaplogo.ico')
+video.iconbitmap('bitmaplogo.ico')
 video.config(bg="#F1D93E")
-video.geometry("450x780+30+30")
+video.geometry("850x900+30+30")
 video.resizable(False,False)
 
-imageFrame = Frame(video, width = 700, height = 600)
-imageFrame.grid(row=0, column =0, padx=10, pady =10)
+imageFrame = Frame(video, width = 600, height = 400)
+imageFrame.place(x=0,y=0)
+#.grid(row=0, column =0, padx=10, pady =10)
 
 lmain = Label(imageFrame)
-lmain.grid(row=0, column=0)
+lmain.place(x=0,y=0)
+#.grid(row=0, column=0)
 
 
 def clickExit():
-	settings.destoy()
 	video.destoy()
 
 
-#def contactusHelp():
+# def contactusHelp():
 #    contactus = Tk()
 #    contactus.iconbitmap('bitmaplogo.ico') 
 #    conemailLabel = Label(contactus, text= "Email: example@email.com")
@@ -39,7 +40,7 @@ def clickExit():
 #    contactuscloseButton.grid(row = 2, column = 0)
 
 
-#def helpindexHelp():
+# def helpindexHelp():
 #    helpindex = Tk()
 #    helpindex.iconbitmap('bitmaplogo.ico')
 #    helptitleLable = Label(helpindex, text= "Help Index:", font = titleFont)
@@ -62,7 +63,7 @@ def clickExit():
 #    helpindexcloseButton.grid(row = 8, column = 1)
 
 
-#def reportissueHelp():
+# def reportissueHelp():
 #    reportissue = Tk()
 #    reportissue.iconbitmap('bitmaplogo.ico') # Need to add actual bitmap
 #    reporttitleLablel = Label(reportissue, text= "Report Issue:", font = titleFont)
@@ -92,68 +93,82 @@ check_Intvar = IntVar()
 fps_choice_Intvar = IntVar()
 
 
-#slidersLabel = Label(video, text="Sliders:", font =titleFont,bg="#F1D93E").grid(row=0, column=0)
-#exitButton = Button(video, text="Quit", command=clickExit, cursor= "tcross",bg="lightgray").grid(row=11, column=2)
+slidersLabel = Label(video, text="Sliders:", font =titleFont,bg="#F1D93E").place(x=0,y=400)
+#exitButton = Button(video, text="Quit", command=clickExit, cursor= "tcross",bg="#F1D93E").grid(row=5, column=4)
 #startButton = Button(settings, text="Start", command=clickExit, cursor= "tcross").grid(row=11, column=0)
 
 
 
 #Scale Slider
-scaleLabel = Label(video, text="Scale:", font =nameFont,bg="#F1D93E" ).grid(row=1, column =0)
+scaleLabel = Label(video, text="Scale:", font =nameFont,bg="#F1D93E" ).place(x=50,y=475)
+#.grid(row=1, column =0)
 scaleSlider = Scale(video, from_=0, to=1000,tickinterval=500, orient=HORIZONTAL,variable = scale_value_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 scaleSlider.set(400)
-scaleSlider.grid(row=1, column=1)
+scaleSlider.place(x=120,y=475)
+#.grid(row=1, column=1)
 
 #Neigbour Slider
-neigLabel = Label(video, text="Neighbours:", font =nameFont,bg="#F1D93E").grid(row=2, column=0)
+neigLabel = Label(video, text="Neighbours:", font =nameFont,bg="#F1D93E").place(x=450,y=475)
+#.grid(row=1, column=2)
 neigSlider = Scale(video, from_=0, to=20,tickinterval=10,orient=HORIZONTAL,variable = neig_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 neigSlider.set(8)
-neigSlider.grid(row=2, column=1)
+neigSlider.place(x=560,y=475)
+#.grid(row=1, column=3)
 
 #Minarea Slider
-minareaLabel = Label(video, text="Min. Area:", font =nameFont,bg="#F1D93E").grid(row=3, column=0)
+minareaLabel = Label(video, text="Min. Area:", font =nameFont,bg="#F1D93E").place(x=15,y=600)
+#.grid(row=2, column=0)
 minareaSlider = Scale(video, from_=0, to=100000,tickinterval=50000, orient=HORIZONTAL, variable = minArea_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 minareaSlider.set(1)
-minareaSlider.grid(row=3, column=1)
+minareaSlider.place(x=120,y=600)
+#.grid(row=2, column=1)
 
 #Brightness Slider
-brightnesLabel = Label(video, text="Brightness:", font =nameFont,bg="#F1D93E").grid(row=4, column=0)
+brightnesLabel = Label(video, text="Brightness:", font =nameFont,bg="#F1D93E").place(x=450,y=600)
+#.grid(row=2, column=2)
 brightnessSlider = Scale(video, from_=0, to=255,tickinterval=127, orient=HORIZONTAL, variable = brightness_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 brightnessSlider.set(100)
-brightnessSlider.grid(row=4, column=1)
+brightnessSlider.place(x=560,y=600)
+#.grid(row=2, column=3)
 
 #Senstivity Slider
-senstivityLabel = Label(video, text="Sensitivity:", font =nameFont,bg="#F1D93E").grid(row=5, column=0)
+senstivityLabel = Label(video, text="Sensitivity:", font =nameFont,bg="#F1D93E").place(x=15,y=725)
+#.grid(row=3, column=0)
 senstivitySlider = Scale(video, from_=0, to=100,tickinterval=50, orient=HORIZONTAL, variable = sensitivity_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 senstivitySlider.set(20)
-senstivitySlider.grid(row=5, column=1)
+senstivitySlider.place(x=120,y=725)
+#.grid(row=3, column=1)
 
 #Click Cooldown SLider
-clickwnLabel = Label(video, text="Click Cooldown:", font =nameFont,bg="#F1D93E").grid(row=6, column=0)
+clickwnLabel = Label(video, text="Click Cooldown:", font =nameFont,bg="#F1D93E").place(x=410,y=725)
+#.grid(row=3, column=2)
 clickwnSlider = Scale(video, from_=0, to=10,tickinterval=5, orient=HORIZONTAL, variable = user_cooldown_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 clickwnSlider.set(5)
-clickwnSlider.grid(row=6, column=1)
+clickwnSlider.place(x=560,y=725)
+#.grid(row=3, column=3)
 
 #Activation Checkbox
 activationCheck = Checkbutton(video, cursor= "tcross", variable = check_Intvar, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Activation", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat",bg="#F1D93E",activebackground="#F1D93E")
-activationCheck.grid(row = 7, column = 1)
+activationCheck.place(x=100,y=820)
+#.grid(row = 4, column = 1)
 
 
 #Show FPS Checkbox
 showfpsCheck = Checkbutton(video, cursor= "tcross", variable = fps_choice_Intvar, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Show FPS", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat",bg="#F1D93E",activebackground="#F1D93E")
-showfpsCheck.grid(row = 8, column = 1)
+showfpsCheck.place(x=600,y=820)
+#.grid(row = 4, column = 2)
 
 ##Help Menubar for settings
-#helpMenu = Menu(menuBar, tearoff=0)
-#helpMenu.add_command(label="Help Index", command=helpindexHelp)
-#helpMenu.add_command(label="Report Issue", command=reportissueHelp)
-#menuBar.add_cascade(label="Help", menu=helpMenu)
+# helpMenu = Menu(menuBar, tearoff=0)
+# helpMenu.add_command(label="Help Index", command=helpindexHelp)
+# helpMenu.add_command(label="Report Issue", command=reportissueHelp)
+# menuBar.add_cascade(label="Help", menu=helpMenu)
 
 ##Other Menubar for settings
-#otherMenu = Menu(menuBar, tearoff=0)
-#menuBar.add_cascade(label="Other", menu=otherMenu)
-#otherMenu.add_command(label="Contact us", command=contactusHelp)
-#otherMenu.add_command(label="Quit", command=clickExit)
+# otherMenu = Menu(menuBar, tearoff=0)
+# menuBar.add_cascade(label="Other", menu=otherMenu)
+# otherMenu.add_command(label="Contact us", command=contactusHelp)
+# otherMenu.add_command(label="Quit", command=clickExit)
 
 #==========================================#
 
