@@ -27,6 +27,7 @@ def clickExit():
 
 def contactusHelp():
    contactus = Tk()
+   contactus.title("Contact Us")
    contactus.config(bg="#F1D93E")
    contactus.geometry("160x75+30+30")
    contactus.resizable(False,False)
@@ -41,31 +42,33 @@ def contactusHelp():
 
 def helpindexHelp():
    helpindex = Tk()
+   helpindex.title("Help Index")
    helpindex.iconbitmap('bitmaplogo.ico')
    helpindex.config(bg="#F1D93E")
-   helpindex.geometry("500x500+30+30")
+   helpindex.geometry("600x850+30+30")
+   helptitleFont = tkFont.Font(family="verdana", size = 30, weight = "bold")
+   helpbodyFont = tkFont.Font(family="verdana", size = 15)
    helpindex.resizable(False,False)
-   helptitleLable = Label(helpindex, text= "Help Index:", font = titleFont, bg="#F1D93E")
+   helptitleLable = Label(helpindex, font = helptitleFont, text= "Help Index:", bg="#F1D93E", width =10, height = 2)
    helptitleLable.grid(row = 0, column = 0)
-   scalehelpLabel = Label(helpindex, text= "Scale is a paramater that specifies how much the image size is reduced, if no gestures are being detected reduce this number", font = sliderFont, bg="#F1D93E")
-   scalehelpLabel.grid(row = 1, column = 0)
-   neighelpLabel = Label(helpindex, text= "Neighbours is used in the program to specify how many neighbours each canditate needs to retain it, THe parameter effects the quanitity of gestures ", font = sliderFont, bg="#F1D93E")
-   neighelpLabel.grid(row = 2, column = 0)
-   minareahelpLabel = Label(helpindex, text= "The Min. Area slider acts as a way to reduce false gestures", font = sliderFont, bg="#F1D93E")
+   neighelpLabel = Label(helpindex, text= "Neighbours is used in the program to specify how many neighbours each\n canditate needs to retain it,\n The parameter effects the quanitity of gestures ", font = helpbodyFont, bg="#F1D93E", bd =1, anchor = W, justify = LEFT, width =60, height = 5)
+   neighelpLabel.grid(row = 1, column = 0)
+   scalehelpLabel = Label(helpindex, text= "Scale is a paramater that specifies how much the image size is reduced,\nif no gestures are being detected reduce this number", font = helpbodyFont, bg="#F1D93E", anchor = W, justify = LEFT, width =60, height = 5)
+   scalehelpLabel.grid(row = 2, column = 0)
+   minareahelpLabel = Label(helpindex, text= "The Min. Area slider acts as a way to reduce false gestures", font = helpbodyFont, bg="#F1D93E", bd =1, anchor = W, justify = LEFT, width =60, height = 5)
    minareahelpLabel.grid(row = 3, column = 0)
-   brightnesshelpLabel = Label(helpindex, text= "The brightness slider changes the brightness of the frame.", font = sliderFont, bg="#F1D93E")
+   brightnesshelpLabel = Label(helpindex, text= "The brightness slider changes the brightness of the frame.", font = helpbodyFont, bg="#F1D93E", bd =1, anchor = W, justify = LEFT, width =60, height = 5)
    brightnesshelpLabel.grid(row = 4, column = 0)
-   senstivityhelpLabel = Label(helpindex, text= "The senstivity slider is to increase or decrease how fast the cursour moves", font = sliderFont, bg="#F1D93E")
+   senstivityhelpLabel = Label(helpindex, text= "The senstivity slider is to increase or decrease\n how fast the cursour moves", font = helpbodyFont, bg="#F1D93E", bd =1, anchor = W, justify = LEFT, width =60, height = 5)
    senstivityhelpLabel.grid(row = 5, column = 0)
-   clickwnhelpLabel = Label(helpindex, text= "The Click Cooldown slider is to increase or decrease time between clicking the same button", font = sliderFont, bg="#F1D93E")
+   clickwnhelpLabel = Label(helpindex, text= "The Click Cooldown slider is to increase or decrease time\n between clicking the same button", font = helpbodyFont, bg="#F1D93E", bd =1, anchor = W, justify = LEFT, width =60, height = 5)
    clickwnhelpLabel.grid(row = 6, column = 0)
-   activationhelpLabel = Label(helpindex, text= "The activation checkbox when selected allows the program to take control of the mouse", font = sliderFont, bg="#F1D93E")
+   activationhelpLabel = Label(helpindex, text= "The activation checkbox when selected allows the\n program to take control of the mouse", font = helpbodyFont, bg="#F1D93E", bd =1, anchor = W, justify = LEFT, width =60, height = 5)
    activationhelpLabel.grid(row = 7, column = 0)
-   showfpshelpLabel = Label(helpindex, text= "The FPS checkbox when selected shows the FPS within the frame", font = sliderFont, bg="#F1D93E")
+   showfpshelpLabel = Label(helpindex, text= "The FPS checkbox when selected shows the FPS within the frame", font = helpbodyFont, bg="#F1D93E", bd =1, anchor = W, justify = LEFT, width =60, height = 5)
    showfpshelpLabel.grid(row = 8, column = 0)
-   helpindexcloseButton = Button(helpindex, text= "Close", command = helpindex.destroy, cursor= "tcross", bg="#F1D93E", activebackground = "lightgray", activeforeground = "white")
+   helpindexcloseButton = Button(helpindex, text= "Close", command = helpindex.destroy, cursor= "tcross", bg="#F1D93E", activebackground = "lightgray", activeforeground = "white", bd =1)
    helpindexcloseButton.grid(row = 9, column = 1)
-
 
 # def reportissueHelp():
 #    reportissue = Tk()
@@ -82,8 +85,8 @@ def helpindexHelp():
 
 
 #Fonts
-titleFont = tkFont.Font(family="verdana", size=30)
-nameFont = tkFont.Font(family="verdana", size=15)
+titleFont = tkFont.Font(family="verdana", size=30, weight = "bold")
+nameFont = tkFont.Font(family="verdana", size=15, weight = "bold", slant = "italic")
 sliderFont = tkFont.Font(family="verdana", size=10)
 quitFont = tkFont.Font(family="verdana", size=35)
 
@@ -115,37 +118,37 @@ quitButton.place(x=625,y=150)
 scaleLabel = Label(video, text="Scale:", font =nameFont,bg="#F1D93E" ).place(x=25,y=475)
 scaleSlider = Scale(video, from_=0, to=1000,tickinterval=500, orient=HORIZONTAL,variable = scale_value_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = RIDGE, repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 scaleSlider.set(400)
-scaleSlider.place(x=120,y=475)
+scaleSlider.place(x=130,y=475)
 
 #Neigbour Slider
 neigLabel = Label(video, text="Neighbours:", font =nameFont,bg="#F1D93E").place(x=430,y=475)
 neigSlider = Scale(video, from_=0, to=20,tickinterval=10,orient=HORIZONTAL,variable = neig_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = RIDGE, repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 neigSlider.set(8)
-neigSlider.place(x=580,y=475)
+neigSlider.place(x=600,y=475)
 
 #Minarea Slider
 minareaLabel = Label(video, text="Min. Area:", font =nameFont,bg="#F1D93E").place(x=5,y=600)
 minareaSlider = Scale(video, from_=0, to=100000,tickinterval=50000, orient=HORIZONTAL, variable = minArea_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = RIDGE, repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 minareaSlider.set(1)
-minareaSlider.place(x=120,y=600)
+minareaSlider.place(x=130,y=600)
 
 #Brightness Slider
 brightnesLabel = Label(video, text="Brightness:", font =nameFont,bg="#F1D93E").place(x=430,y=600)
 brightnessSlider = Scale(video, from_=0, to=255,tickinterval=127, orient=HORIZONTAL, variable = brightness_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = RIDGE, repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 brightnessSlider.set(100)
-brightnessSlider.place(x=580,y=600)
+brightnessSlider.place(x=600,y=600)
 
 #Senstivity Slider
 senstivityLabel = Label(video, text="Sensitivity:", font =nameFont,bg="#F1D93E").place(x=0,y=725)
 senstivitySlider = Scale(video, from_=0, to=100,tickinterval=50, orient=HORIZONTAL, variable = sensitivity_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = RIDGE, repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 senstivitySlider.set(20)
-senstivitySlider.place(x=120,y=725)
+senstivitySlider.place(x=130,y=725)
 
 #Click Cooldown SLider
 clickwnLabel = Label(video, text="Click Cooldown:", font =nameFont,bg="#F1D93E").place(x=415,y=725)
 clickwnSlider = Scale(video, from_=0, to=10,tickinterval=5, orient=HORIZONTAL, variable = user_cooldown_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = RIDGE, repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 clickwnSlider.set(5)
-clickwnSlider.place(x=580,y=725)
+clickwnSlider.place(x=600,y=725)
 
 #Activation Checkbox
 activationCheck = Checkbutton(video, cursor= "tcross", variable = check_Intvar, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Activation", font =nameFont, justify = "center", selectcolor = "lightgray",bg="#F1D93E",activebackground="#F1D93E")
@@ -154,7 +157,7 @@ activationCheck.place(x=100,y=820)
 
 #Show FPS Checkbox
 showfpsCheck = Checkbutton(video, cursor= "tcross", variable = fps_choice_Intvar, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Show FPS", font =nameFont, justify = "center", selectcolor = "lightgray",bg="#F1D93E",activebackground="#F1D93E")
-showfpsCheck.place(x=600,y=820)
+showfpsCheck.place(x=580,y=820)
 
 
 #Help Menubar for settings
