@@ -219,10 +219,6 @@ path_thumb = 'haarscascades/thumb.xml'
 thumb_object = 'thumb'
 
 # Imports the path to the fist Cascade
-path_okay = 'haarscascades/okay.xml'
-okay_object = 'okay'
-
-# Imports the path to the fist Cascade
 path_peace = 'haarscascades/peace.xml'
 peace_object = 'peace'
 # ---------------------------------------------------------------------- #
@@ -262,7 +258,6 @@ sY = 540
 cascade_palm = cv2.CascadeClassifier(path_palm)
 cascade_fist = cv2.CascadeClassifier(path_fist)
 cascade_thumb = cv2.CascadeClassifier(path_thumb)
-cascade_okay = cv2.CascadeClassifier(path_okay)
 cascade_peace = cv2.CascadeClassifier(path_peace)
 #==========================================#
 
@@ -291,7 +286,6 @@ def show_frame():
 	objs_palm = cascade_palm.detectMultiScale(frame,scale_value,neig)
 	objs_fist = cascade_fist.detectMultiScale(frame,scale_value,neig)
 	objs_thumb = cascade_thumb.detectMultiScale(frame,scale_value,neig)
-	objs_okay = cascade_okay.detectMultiScale(frame,scale_value,neig)
 	objs_peace = cascade_peace.detectMultiScale(frame,scale_value,neig)
 
 #==========================================#
@@ -423,20 +417,6 @@ def show_frame():
 				else:
 					print("Please wait, right click is on a cooldown")
 
-#==========================================#
-	# Okay Cascade
-	#for (x,y,w,h) in objs_okay:
-		#area = w*h
-		#minArea = cv2.getTrackbarPos("Min Area", "Settings")
-		#if area > minArea:
-			# labels okay gesture
-			#cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 255),3)
-			#cv2.putText(frame,okay_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(255, 0, 255),2)
-
-			# OKAY GESTURE FUNCTION GOES HERE
-			#
-			#
-			#
 
 #==========================================#
 
