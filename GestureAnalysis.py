@@ -8,12 +8,12 @@ from tkvideo import tkvideo
 from PIL import ImageTk,Image #used for importing images
 
 #==========================================#
-#Settings
+#Window
 video = Tk()  #Makes main window
 video.title("Only hands")
 video.iconbitmap('bitmaplogo.ico')
 video.config(bg="#F1D93E")
-video.geometry("850x900+30+30")
+video.geometry("875x925+30+30")
 video.resizable(False,False)
 
 imageFrame = Frame(video, width = 600, height = 400)
@@ -35,7 +35,7 @@ def contactusHelp():
    conemailLabel.grid(row = 0, column = 0)
    conenumLabel = Label(contactus, text= "Number: 08081 960082",bg="#F1D93E")
    conenumLabel.grid(row = 1, column = 0)
-   contactuscloseButton = Button(contactus, text= "Close", command = contactus.destroy, cursor= "tcross",bg="#F1D93E", activebackground = "#F1D93E", activeforeground = "white")
+   contactuscloseButton = Button(contactus, text= "Close", command = contactus.destroy, cursor= "tcross",bg="#F1D93E", activebackground = "lightgray", activeforeground = "white")
    contactuscloseButton.grid(row = 2, column = 0)
 
 
@@ -63,7 +63,7 @@ def helpindexHelp():
    activationhelpLabel.grid(row = 7, column = 0)
    showfpshelpLabel = Label(helpindex, text= "The Show FPS checkbox does.....", font = sliderFont, bg="#F1D93E")
    showfpshelpLabel.grid(row = 8, column = 0)
-   helpindexcloseButton = Button(helpindex, text= "Close", command = helpindex.destroy, cursor= "tcross", bg="#F1D93E", activebackground = "#F1D93E", activeforeground = "white")
+   helpindexcloseButton = Button(helpindex, text= "Close", command = helpindex.destroy, cursor= "tcross", bg="#F1D93E", activebackground = "lightgray", activeforeground = "white")
    helpindexcloseButton.grid(row = 9, column = 1)
 
 
@@ -82,10 +82,10 @@ def helpindexHelp():
 
 
 #Fonts
-titleFont = tkFont.Font(family="comicsans", size=30)
-nameFont = tkFont.Font(family="comicsans", size=15)
-sliderFont = tkFont.Font(family="comicsans", size=10)
-quitFont = tkFont.Font(family="comicsans", size=40)
+titleFont = tkFont.Font(family="verdana", size=30)
+nameFont = tkFont.Font(family="verdana", size=15)
+sliderFont = tkFont.Font(family="verdana", size=10)
+quitFont = tkFont.Font(family="verdana", size=35)
 
 #Intvars
 user_cooldown_Intvar = IntVar()
@@ -97,55 +97,63 @@ scale_value_Intvar = IntVar()
 check_Intvar = IntVar()
 fps_choice_Intvar = IntVar()
 
+#image
+onwindowlogo = Image.open("logo.png")
+tkLogo = ImageTk.PhotoImage(onwindowlogo)
 
+#Others
+logoLabel = Label(video, image=tkLogo, bg ="#F1D93E")
+logoLabel.image = tkLogo
+logoLabel.place(x=600, y= 20)
 slidersLabel = Label(video, text="Sliders:", font =titleFont,bg="#F1D93E").place(x=0,y=400)
-quitButton = Button(video, text="  Quit  ", command=clickExit, cursor= "tcross",bg="#F1D93E", activebackground = "#F1D93E", activeforeground = "white", font=quitFont).place(x=625,y=100)
+quitButton = Button(video, text=" Quit ", command=clickExit, cursor= "tcross",bg="#F1D93E", activebackground = "lightgray", activeforeground = "white", font=quitFont, relief =RIDGE)
+quitButton.place(x=625,y=150)
 
 
 
 #Scale Slider
-scaleLabel = Label(video, text="Scale:", font =nameFont,bg="#F1D93E" ).place(x=50,y=475)
-scaleSlider = Scale(video, from_=0, to=1000,tickinterval=500, orient=HORIZONTAL,variable = scale_value_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+scaleLabel = Label(video, text="Scale:", font =nameFont,bg="#F1D93E" ).place(x=25,y=475)
+scaleSlider = Scale(video, from_=0, to=1000,tickinterval=500, orient=HORIZONTAL,variable = scale_value_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = RIDGE, repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 scaleSlider.set(400)
 scaleSlider.place(x=120,y=475)
 
 #Neigbour Slider
-neigLabel = Label(video, text="Neighbours:", font =nameFont,bg="#F1D93E").place(x=450,y=475)
-neigSlider = Scale(video, from_=0, to=20,tickinterval=10,orient=HORIZONTAL,variable = neig_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+neigLabel = Label(video, text="Neighbours:", font =nameFont,bg="#F1D93E").place(x=430,y=475)
+neigSlider = Scale(video, from_=0, to=20,tickinterval=10,orient=HORIZONTAL,variable = neig_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = RIDGE, repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 neigSlider.set(8)
-neigSlider.place(x=560,y=475)
+neigSlider.place(x=580,y=475)
 
 #Minarea Slider
-minareaLabel = Label(video, text="Min. Area:", font =nameFont,bg="#F1D93E").place(x=15,y=600)
-minareaSlider = Scale(video, from_=0, to=100000,tickinterval=50000, orient=HORIZONTAL, variable = minArea_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+minareaLabel = Label(video, text="Min. Area:", font =nameFont,bg="#F1D93E").place(x=5,y=600)
+minareaSlider = Scale(video, from_=0, to=100000,tickinterval=50000, orient=HORIZONTAL, variable = minArea_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = RIDGE, repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 minareaSlider.set(1)
 minareaSlider.place(x=120,y=600)
 
 #Brightness Slider
-brightnesLabel = Label(video, text="Brightness:", font =nameFont,bg="#F1D93E").place(x=450,y=600)
-brightnessSlider = Scale(video, from_=0, to=255,tickinterval=127, orient=HORIZONTAL, variable = brightness_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+brightnesLabel = Label(video, text="Brightness:", font =nameFont,bg="#F1D93E").place(x=430,y=600)
+brightnessSlider = Scale(video, from_=0, to=255,tickinterval=127, orient=HORIZONTAL, variable = brightness_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = RIDGE, repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 brightnessSlider.set(100)
-brightnessSlider.place(x=560,y=600)
+brightnessSlider.place(x=580,y=600)
 
 #Senstivity Slider
-senstivityLabel = Label(video, text="Sensitivity:", font =nameFont,bg="#F1D93E").place(x=15,y=725)
-senstivitySlider = Scale(video, from_=0, to=100,tickinterval=50, orient=HORIZONTAL, variable = sensitivity_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+senstivityLabel = Label(video, text="Sensitivity:", font =nameFont,bg="#F1D93E").place(x=0,y=725)
+senstivitySlider = Scale(video, from_=0, to=100,tickinterval=50, orient=HORIZONTAL, variable = sensitivity_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = RIDGE, repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 senstivitySlider.set(20)
 senstivitySlider.place(x=120,y=725)
 
 #Click Cooldown SLider
-clickwnLabel = Label(video, text="Click Cooldown:", font =nameFont,bg="#F1D93E").place(x=410,y=725)
-clickwnSlider = Scale(video, from_=0, to=10,tickinterval=5, orient=HORIZONTAL, variable = user_cooldown_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = "flat", repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
+clickwnLabel = Label(video, text="Click Cooldown:", font =nameFont,bg="#F1D93E").place(x=415,y=725)
+clickwnSlider = Scale(video, from_=0, to=10,tickinterval=5, orient=HORIZONTAL, variable = user_cooldown_Intvar, sliderlength = 10, length = 250, width = 25, bd = 4, cursor= "tcross", font = sliderFont,  relief = RIDGE, repeatdelay = "1", bg ="#F1D93E",fg="white", activebackground ="white", highlightbackground = "white", troughcolor ="lightgray")
 clickwnSlider.set(5)
-clickwnSlider.place(x=560,y=725)
+clickwnSlider.place(x=580,y=725)
 
 #Activation Checkbox
-activationCheck = Checkbutton(video, cursor= "tcross", variable = check_Intvar, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Activation", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat",bg="#F1D93E",activebackground="#F1D93E")
+activationCheck = Checkbutton(video, cursor= "tcross", variable = check_Intvar, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Activation", font =nameFont, justify = "center", selectcolor = "lightgray",bg="#F1D93E",activebackground="#F1D93E")
 activationCheck.place(x=100,y=820)
 
 
 #Show FPS Checkbox
-showfpsCheck = Checkbutton(video, cursor= "tcross", variable = fps_choice_Intvar, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Show FPS", font =nameFont, justify = "center", selectcolor = "lightgray",  relief = "flat",bg="#F1D93E",activebackground="#F1D93E")
+showfpsCheck = Checkbutton(video, cursor= "tcross", variable = fps_choice_Intvar, onvalue = 1, offvalue = 0, height=3, width = 20, text = "Show FPS", font =nameFont, justify = "center", selectcolor = "lightgray",bg="#F1D93E",activebackground="#F1D93E")
 showfpsCheck.place(x=600,y=820)
 
 
