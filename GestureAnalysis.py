@@ -441,7 +441,7 @@ def show_frame():
 			cv2.putText(frame,peace_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
 			if check == 1:
 				# handles the cooldown for the click
-				double.setprevious(clickCooldown(double.getprevious(),user_cooldown,"Double",2))
+				double.setprevious(clickCooldown(double.getprevious(),user_cooldown,"left",2))
 
 #==========================================#
 	# Creates an FPS counter for user feedback
