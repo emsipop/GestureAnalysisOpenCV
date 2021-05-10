@@ -9,6 +9,49 @@ from PIL import ImageTk,Image #used for importing images
 
 #==========================================#
 #Window
+class clickTime:
+	def __init__(self):
+		self.previous_click = time.time()
+	def setprevious(self,_time):
+		self.previous_click = _time
+	def getprevious(self):
+		return self.previous_click
+
+class mousePosition:
+	def __init__(self):
+		self.sX = 960
+		self.sY = 540
+	def increaseSx(self,sens):
+		self.sX += sens
+	def decreaseSx(self,sens):
+		self.sX -= sens
+	def increaseSy(self,sens):
+		self.sY += sens
+	def decreaseSy(self,sens):
+		self.sY -= sens
+	def getSx(self):
+		return self.sX
+	def getSy(self):
+		return self.sY
+mouseP = mousePosition()
+
+def clickCooldown(click_time, cooldown, button_type, click_num):
+	click_current_time = time.time()
+	diff = click_current_time - click_time # current duration for cooldown
+	if (diff > cooldown):
+		if (click_num == 2):
+			print("double click")
+		else:
+			print(button_type + "click")
+		pyautogui.click(button = button_type, clicks = click_num)
+		return click_current_time
+	else:
+		if (click_num == 2):
+			print("Please wait, double click is on a cooldown")
+		else:
+			print("Please wait, " + button_type + " click is on a cooldown")
+		return click_time
+
 video = Tk()  #Makes main window
 video.title("Only hands")
 video.iconbitmap('bitmaplogo.ico')
@@ -69,19 +112,6 @@ def helpindexHelp():
    showfpshelpLabel.grid(row = 8, column = 0)
    helpindexcloseButton = Button(helpindex, text= "Close", command = helpindex.destroy, cursor= "tcross", bg="#F1D93E", activebackground = "lightgray", activeforeground = "white", bd =1)
    helpindexcloseButton.grid(row = 9, column = 1)
-
-# def reportissueHelp():
-#    reportissue = Tk()
-#    reportissue.iconbitmap('bitmaplogo.ico') # Need to add actual bitmap
-#    reporttitleLablel = Label(reportissue, text= "Report Issue:", font = titleFont)
-#    reporttitleLablel.grid(row = 0, column = 0)
-#    issueEntry = Entry(reportissue, bd=5, cursor = "tcross")
-#    issueEntry.grid(row = 0, column = 1)
-#    issueconfirmButton = Button(reportissue, text= "Enter",cursor= "tcross")
-#    issueconfirmButton.grid(row = 0, column = 2)
-#    reportissuecloseButton = Button(reportissue, text= "Close", command = reportissue.destroy, cursor= "tcross")
-#    reportissuecloseButton.grid(row = 9, column = 9)
-#    #entrysucLable = Label(reportissue, text= "Entry Successful", font = sliderFont).grid(row = 2, column = 0)
 
 
 #Fonts
@@ -180,30 +210,7 @@ video.config(menu=menuBar)
 def empty(a):
     pass
 #==========================================#
-def create_squares():
-		#Creates rectangles that act as a guide
 
-	cv2.rectangle(frame,(270,70),(370,170),(255,255,0),5)
-	cv2.rectangle(frame,(270,410),(370,310),(255,255,0),5)
-	cv2.rectangle(frame,(430,290),(530,190),(255,255,0),5)
-	cv2.rectangle(frame,(110,290),(210,190),(255,255,0),5)
-
-					#Top right
-	cv2.rectangle(frame,(530,170),(480,70),(255,255,0),5)
-	cv2.rectangle(frame,(430,70),(530,120),(255,255,0),5)
-			
-					#Top left 
-	cv2.rectangle(frame,(110,70),(160,170),(colour2),5)
-	cv2.rectangle(frame,(110,70),(210,120),(colour2),5)
-	
-					#Bottom right 
-	cv2.rectangle(frame,(530,310),(480,410),(colour2),5)
-	cv2.rectangle(frame,(430,410),(530,360),(colour2),5)
-
-					#Bottom left
-	cv2.rectangle(frame,(110,310),(160,410),(colour2),5)
-	cv2.rectangle(frame,(210,410),(110,360),(colour2),5)
-	
 pyautogui.FAILSAFE = False
 # ----------------- handles the import of the cascades ----------------- #
 # Imports the path to palm cascade
@@ -224,14 +231,14 @@ peace_object = 'peace'
 # ---------------------------------------------------------------------- #
 
 # sets initial values for variables used to control click cooldowns, to avoid "spamming" inputs
-left_click_time = 0
-right_click_time = 0 
-double_click_time = 0
+left = clickTime()
+right = clickTime()
+double = clickTime()
 # rather than several variables this could be object properties if gestures are changed to objects later
 
 #Used when measuring fps
-prev_frame = 0
-new_frame = 0
+#prev_frame = 0
+fps = clickTime()
 
 #Standardising the colour scheme
 colour1 = (255,0,255)
@@ -307,74 +314,95 @@ def show_frame():
 			cv2.putText(frame,palm_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
 			cv2.circle(frame, (cX, cY), 5, (colour2), -1) # centre circle
 			if check == 1:
-				create_squares() # draws the squares for cursor control
+				cv2.rectangle(frame,(270,70),(370,170),(255,255,0),5)
+				cv2.rectangle(frame,(270,410),(370,310),(255,255,0),5)
+				cv2.rectangle(frame,(430,290),(530,190),(255,255,0),5)
+				cv2.rectangle(frame,(110,290),(210,190),(255,255,0),5)
+
+					#Top right
+				cv2.rectangle(frame,(530,170),(480,70),(255,255,0),5)
+				cv2.rectangle(frame,(430,70),(530,120),(255,255,0),5)
+			
+								#Top left 
+				cv2.rectangle(frame,(110,70),(160,170),(colour2),5)
+				cv2.rectangle(frame,(110,70),(210,120),(colour2),5)
+	
+								#Bottom right 
+				cv2.rectangle(frame,(530,310),(480,410),(colour2),5)
+				cv2.rectangle(frame,(430,410),(530,360),(colour2),5)
+
+								#Bottom left
+				cv2.rectangle(frame,(110,310),(160,410),(colour2),5)
+				cv2.rectangle(frame,(210,410),(110,360),(colour2),5)
 
 				# big ass if statement for each direction the mouse can move - maybe we should clean it up
 				if 270 < cX < 370 and 170 > cY > 70:
 						print("N")
-						sY-= sensitivity
+						mouseP.decreaseSy(sensitivity)
 				elif 270 < cX < 370 and 410 > cY > 310:
 						print("S")
-						sY+= sensitivity
+						mouseP.increaseSy(sensitivity)
 				elif 430 < cX < 530 and 290 > cY > 190:
 						print("E")
-						sX+= sensitivity
+						mouseP.increaseSx(sensitivity)
 				elif 110 < cX < 210 and 290 > cY > 190:
 						print("W")
-						sX-= sensitivity
+						mouseP.decreaseSx(sensitivity)
 				elif 480 < cX < 530 and 120 > cY > 70:
 						print("NE")
-						sY-= sensitivity 
-						sX+= sensitivity
+						mouseP.decreaseSy(sensitivity)
+						mouseP.increaseSx(sensitivity)
 				elif 480 < cX < 530 and 170 > cY > 120:
 						print("NEE")
-						sX+= sensitivity
-						sY-= sensitivity/2
+						mouseP.increaseSx(sensitivity)
+						mouseP.decreaseSy(sensitivity/2)
 				elif 430 < cX < 480 and 120 > cY > 70:
 						print("NNE")
-						sY-= sensitivity
-						sX+= sensitivity/2
+						mouseP.decreaseSy(sensitivity)
+						mouseP.increaseSx(sensitivity/2)
 				elif 110 < cX < 160 and 120 > cY > 70:
 						print ("NW")
-						sY-= sensitivity 
-						sX-= sensitivity
+						mouseP.decreaseSy(sensitivity)
+						mouseP.decreaseSx(sensitivity)
 				elif 160 < cX < 210 and 120 > cY > 70:
 						print("NNW")
-						sY-= sensitivity 
-						sX-= sensitivity/2
+						mouseP.decreaseSy(sensitivity)
+						mouseP.decreaseSx(sensitivity/2)
 				elif 110 < cX < 160 and 170 > cY > 120:
 						print("NWW")
-						sY-= sensitivity/2
-						sX-= sensitivity
+						mouseP.decreaseSy(sensitivity/2)
+						mouseP.decreaseSx(sensitivity)
 				elif 480 < cX < 530 and 410 > cY > 360:
 						print("SE")
-						sY+= sensitivity 
-						sX+= sensitivity
+						mouseP.increaseSx(sensitivity)
+						mouseP.increaseSy(sensitivity)
 				elif 480 < cX < 530 and 360 > cY > 310:
 						print("SEE")
-						sY+= sensitivity/2 
-						sX+= sensitivity
+						mouseP.increaseSx(sensitivity/2)
+						mouseP.increaseSy(sensitivity)
 				elif 430 < cX < 480 and 410 > cY > 360:
 						print("SSE")
-						sY+= sensitivity 
-						sX+= sensitivity/2
+						mouseP.increaseSx(sensitivity)
+						mouseP.increaseSy(sensitivity/2)
 				elif 110 < cX < 160 and 410 > cY > 360:
 						print("SW")
-						sY+= sensitivity 
-						sX-= sensitivity
+						mouseP.increaseSy(sensitivity)
+						mouseP.decreaseSx(sensitivity)
 				elif 110 < cX < 160 and 360 > cY > 310:
 						print("SWW")
-						sY+= sensitivity/2
-						sX-= sensitivity
+						mouseP.increaseSy(sensitivity/2)
+						mouseP.decreaseSx(sensitivity)
 				elif 160 < cX < 210 and 410 > cY > 360:
 						print("SSW")
-						sY+= sensitivity 
-						sX-= sensitivity/2
+						mouseP.decreaseSx(sensitivity/2)
+						mouseP.increaseSy(sensitivity)
 
 			# if statement to check if mouse is inside the monitor window size
 				if 0 < x < 1920 and 0 < y < 1080:
 				#moves mouse
-					pyautogui.moveTo(sX,sY)
+					mouseX = mouseP.getSx()
+					mouseY = mouseP.getSy()
+					pyautogui.moveTo(mouseX,mouseY)
 			
 #==========================================#
 	# Fist Cascade
@@ -387,15 +415,7 @@ def show_frame():
 			cv2.putText(frame,fist_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
 			if check == 1:
 				# handles the cooldown to avoid spamming inputs
-				left_click_current_time = time.time()
-				diff = left_click_current_time - left_click_time # current duration for cooldown 
-
-				if (diff > user_cooldown): 
-					print("Left click")
-					pyautogui.click(button = "left", clicks = 1)
-					left_click_time = left_click_current_time
-				else:
-					print("Please wait, left click is on a cooldown")
+				left.setprevious(clickCooldown(left.getprevious(),user_cooldown,"Left",1))
 
 #==========================================#
 	# Thumb Cascade
@@ -408,16 +428,7 @@ def show_frame():
 			cv2.putText(frame,thumb_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
 			if check == 1:
 				# handles the click cooldown
-				right_click_current_time = time.time()
-				diff = right_click_current_time - right_click_time
-				if (diff > user_cooldown): 
-					print("Right click")
-					pyautogui.click(button = 'right', clicks = 1)
-					right_click_time = right_click_current_time
-				else:
-					print("Please wait, right click is on a cooldown")
-
-
+				right.setprevious(clickCooldown(right.getprevious(),user_cooldown,"Right",1))
 #==========================================#
 
 	# Peace Cascade
@@ -430,23 +441,17 @@ def show_frame():
 			cv2.putText(frame,peace_object,(x,y-5),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour1),2)
 			if check == 1:
 				# handles the cooldown for the click
-				double_click_current_time = time.time()
-				diff = double_click_current_time - double_click_time
+				double.setprevious(clickCooldown(double.getprevious(),user_cooldown,"Double",2))
 
-				if (diff > user_cooldown):
-					print("Double click")
-					pyautogui.click(button = "left" , clicks = 2)
-					double_click_time = double_click_current_time
-				else:
-					print("Please wait, Double click is on a cooldown")
 #==========================================#
 	# Creates an FPS counter for user feedback
 	# only if the user wishes to see the FPS
 	if fps_choice == 1:
 		new_frame = time.time()
-		fps = str(int(1/(new_frame-prev_frame)))
-		prev_frame = new_frame
-		cv2.putText(frame, "FPS: "+ fps,(1,20),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour2),2)
+		previous = fps.getprevious()
+		fpss = str(int(1/(new_frame-previous)))
+		fps.setprevious(new_frame)
+		cv2.putText(frame, "FPS: "+ fpss,(1,20),cv2.FONT_HERSHEY_COMPLEX_SMALL,1,(colour2),2)
 #==========================================#
 	#Shows the frame
 	frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
@@ -457,11 +462,6 @@ def show_frame():
 	lmain.after(10, show_frame) 
 
 #==========================================#
-
-#==========================================#
-#sliderFrame = Frame(video, width=600, height=100)
-#sliderFrame.grid(row = 9, column=1, padx=10, pady=2)
-
 show_frame()  #Display 2
 video.mainloop()  #Starts GUI
 #==========================================#
