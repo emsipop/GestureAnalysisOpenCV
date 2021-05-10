@@ -1,4 +1,4 @@
-![Logo](/Logo.png "Title")
+![Logo](/LogoTitle.png "Title")
 # OnlyHands Mouse Control System
 This tool enables you to perform mouse functions using your webcam and gestures.
 
