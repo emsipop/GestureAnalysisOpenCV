@@ -24,4 +24,6 @@ If you wish to improve the code or leave a suggestion, please use the [issues ta
 
 Please use as much detail as possible for bug reports or suggestions.
 
+You can also contact the team at onlyhands.uol@gmail.com
+
 
