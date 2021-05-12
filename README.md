@@ -11,6 +11,7 @@ The mouse functionality and their respective gestures include:
 The program includes a settings window with several parameters, for the best results reduce the scale value and slightly increase brightness. Decreasing the neighbours slider can improve recognition but also causes more false positives. 
 Once you are happy with the hand detection drag the activation slider to 1 and the mouse controls will be unlocked.
 
+A video demonstration can be found [here](https://www.youtube.com/watch?v=qfBEfVnS2Xc).
 ## Explanation
 The program makes use of Haar cascades in OpenCV to recognise the user's hand and PyAutoGUI to handle the mouse functions.
 
